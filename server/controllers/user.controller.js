@@ -39,3 +39,75 @@ exports.signUp = (req, res, next) => {
     res.status(400).json({error : "invalid email"})
   } 
 };
+
+const createToken = (id) => {
+  return jwt.sign({ id }, process.env.authToken, {
+    expiresIn: 12 * 60 * 60 * 1000,
+  });
+};
+
+exports.logIn = (req, res, next) => {
+  UserModel.findOne({
+    email: req.body.email,
+  })
+    .then((user) => {
+      if (!user) {
+        return res.status(401).json({ error: "unable to find user" });
+      }
+      bcrypt
+        .compare(req.body.password, user.password)
+        .then((valid) => {
+          if (!valid) {
+            return res.status(401).json({ error: "wrong password" });
+          }
+          const token = createToken(user._id);
+          res.cookie("jwt", token, 
+            { 
+              maxAge: 12 * 60 * 60 * 1000, 
+              httpOnly: true 
+            }
+          );
+          res.status(200).json({ user: user._id });
+        })
+        .catch(() => res.status(501).json({ error : "unable to check paswword" }));
+    })
+    .catch(() => res.status(500).json({ error : "unable to check user "}));
+};
+
+exports.logOut = (req, res, next) => {
+  res.cookie("jwt", "", { maxAge: 1 });
+  res.status(200).json({ message: "logged out" });
+};
+
+exports.getAllUsers = (req, res, next) => {
+  UserModel.find().then((user) => res.status(200).json(user))
+  .catch(() => {
+    res.status(400).json({ error: "unable to retrieve users" });
+  }); 
+};
+
+exports.getOneUser = (req, res, next) => {
+  UserModel.findOne({ _id: req.params.id})
+  .then((user) => {
+    res.status(200).json(user);
+  })
+  .catch(() => {
+    res.status(400).json({ error: "unable to retrieve user" });
+  });
+};
+
+exports.deleteUser = (req, res, next) => {
+  UserModel.findOne({ _id: req.params.id })
+  .then((user) => {
+    if (user._id != req.auth.userId) {
+      res.status(401).json({ message: "unauthorized to delete user" });
+    } else { 
+      UserModel.deleteOne({ _id: req.params.id })
+      .then(() =>
+        res.status(200).json({ message: "user deleted" })
+      )
+      .catch(() => res.status(400).json({ error: "unable to delete user" }));
+    }
+  })
+  .catch(() => res.status(500).json({ error: "unable to find user to delete" }));
+};

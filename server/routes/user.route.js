@@ -5,7 +5,10 @@ const userCtrl = require('../controllers/user.controller')
 const auth = require("../middleware/auth");
 
 router.post("/signup", userCtrl.signUp);
-//router.post("/login", userCtrl.logIn);
-//router.put("/logout", userCtrl.logOut);
+router.post("/login", userCtrl.logIn);
+router.put("/logout", userCtrl.logOut);
+router.get("/", userCtrl.getAllUsers);
+router.get("/:id", userCtrl.getOneUser);
+router.delete("/:id", userCtrl.deleteUser);
 
 module.exports = router;
