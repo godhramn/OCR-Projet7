@@ -3,7 +3,11 @@ const app = express();
 const mongoose = require('mongoose');
 const path = require("path");
 const cookieParser = require("cookie-parser");
+const helmet = require("helmet");
+const cors = require("cors");
 require('dotenv').config();
+
+const { checkUser, requireAuth } = require("./middleware/auth");
 
 const userRoutes = require('./routes/user.route');
 const postRoutes = require('./routes/post.route');
@@ -31,11 +35,23 @@ app.use((req, res, next) => {
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
+app.use(helmet());
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 
 app.use('/api/users', userRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
 
+app.get("*", checkUser);
+app.get("/jwtid", requireAuth, (req, res) => {
+  res.status(200).json(res.locals.user);
+});
 app.use("/images", express.static(path.join(__dirname, "images")));
 
 module.exports = app;
