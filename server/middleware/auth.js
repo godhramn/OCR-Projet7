@@ -1,13 +1,13 @@
-const jwt = require("jsonwebtoken");
+const access_token = require("jsonwebtoken");
 const UserModel = require("../models/user.model");
 
 module.exports.checkUser = (req, res, next) => {
-  const token = req.cookies.jwt;
+  const token = req.cookies.access_token;
   if (token) {
-    jwt.verify(token, process.env.authToken, async (err, decodedToken) => {
+    access_token.verify(token, process.env.authToken, async (err, decodedToken) => {
       if (err) {
         res.locals.user = null;
-        res.cookie("jwt", "", { maxAge: 1 });
+        res.cookie("access_token", "", { maxAge: 1 });
         next();
       } else {
         let user = await UserModel.findOne({ _id: decodedToken.id });
@@ -22,9 +22,9 @@ module.exports.checkUser = (req, res, next) => {
 };
 
 module.exports.requireAuth = (req, res, next) => {
-  const token = req.cookies.jwt;
+  const token = req.cookies.access_token;
   if (token) {
-    jwt.verify(token, process.env.authToken, async (err) => {
+    access_token.verify(token, process.env.authToken, async (err) => {
       if (err) {
         console.log(err);
       } else {
@@ -32,6 +32,6 @@ module.exports.requireAuth = (req, res, next) => {
       }
     });
   } else {
-    res.status(500).json("Aucun token trouvé");
+    res.status(500).json("unable to find token");
   }
 };

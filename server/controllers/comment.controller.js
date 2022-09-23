@@ -56,7 +56,7 @@ exports.deleteComment = (req, res, next) => {
   CommentModel.findOne({ _id: req.params.id })
     .then((comment) => {
       Comment.deleteMany({ commentId: req.params.id });
-      const filename = comment.picture.split("images/comments/")[1];
+      const filename = comment.imageURL.split("images/comments/")[1];
       fs.unlink(`images/comments/${filename}`, () => {
         CommentModel.deleteOne({ _id: req.params.id })
           .then(() => res.status(200).json({ message: "comment deleted" }))

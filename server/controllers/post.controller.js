@@ -1,5 +1,6 @@
 const PostModel = require("../models/post.model");
 const UserModel = require("../models/user.model");
+const CommentModel = require("../models/comment.model");
 const fs = require("fs");
 
 exports.createPost = (req, res, next) => {
@@ -56,16 +57,16 @@ exports.modifyPost = (req, res, next) => {
 
 exports.deletePost = (req, res, next) => {
   PostModel.findOne({ _id: req.params.id })
-    .then((post) => {
-      Comment.deleteMany({ postId: req.params.id });
-      const filename = post.picture.split("images/posts/")[1];
-      fs.unlink(`images/posts/${filename}`, () => {
-        PostModel.deleteOne({ _id: req.params.id })
-          .then(() => res.status(200).json({ message: "post deleted" }))
-          .catch(() => res.status(400).json({ error: "unable to delete post" }));
-      });
-    })
-    .catch(() => res.status(500).json( { error : "unable to find post to delete" }));
+  .then((post) => {
+    CommentModel.deleteMany({ postId: req.params.id });
+    const filename = post.imageURL.split("images/posts/")[1];
+    fs.unlink(`images/posts/${filename}`, () => {
+      PostModel.deleteOne({ _id: req.params.id })
+        .then(() => res.status(200).json({ message: "post deleted" }))
+        .catch(() => res.status(400).json({ error: "unable to delete post" }));
+    });
+  })
+  .catch(() => res.status(500).json( { error : "unable to access post to delete" }));
 };
 
 exports.getAllPosts = (req, res, next) => {

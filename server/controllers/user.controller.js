@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const access_token = require("jsonwebtoken");
 const passwordValidator = require("password-validator");
 const emailValidator = require("email-validator");
 
@@ -41,7 +41,7 @@ exports.signUp = (req, res, next) => {
 };
 
 const createToken = (id) => {
-  return jwt.sign({ id }, process.env.authToken, {
+  return access_token.sign({ id }, process.env.authToken, {
     expiresIn: 12 * 60 * 60 * 1000,
   });
 };
@@ -61,7 +61,7 @@ exports.logIn = (req, res, next) => {
             return res.status(401).json({ error: "wrong password" });
           }
           const token = createToken(user._id);
-          res.cookie("jwt", token, 
+          res.cookie("access_token", token, 
             { 
               maxAge: 12 * 60 * 60 * 1000, 
               httpOnly: true 
@@ -75,7 +75,7 @@ exports.logIn = (req, res, next) => {
 };
 
 exports.logOut = (req, res, next) => {
-  res.cookie("jwt", "", { maxAge: 1 });
+  res.cookie("access_token", "", { maxAge: 1 });
   res.status(200).json({ message: "logged out" });
 };
 
@@ -109,5 +109,5 @@ exports.deleteUser = (req, res, next) => {
       .catch(() => res.status(400).json({ error: "unable to delete user" }));
     }
   })
-  .catch(() => res.status(500).json({ error: "unable to find user to delete" }));
+  .catch(() => res.status(500).json({ error: "unable to access user to delete" }));
 };
