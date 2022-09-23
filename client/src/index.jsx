@@ -35,8 +35,10 @@ const theme = createTheme({
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <Provider store={store}>
-    <App />
-    <Footer />
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
+    <Footer/>
   </Provider>
 )
 

@@ -8,8 +8,8 @@ const index = () => {
   return (
     <Router>
       <Routes>
-        < Route element={<Home />} exact path='/' />
         < Route element={<Profil />} exact path='/profil' />
+        < Route element={<Home />} exact path='/' />
       </Routes>
     </Router>
   );
