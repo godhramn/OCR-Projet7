@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { TextField, Button, CircularProgress } from '@mui/material';
+import { TextField, Button } from '@mui/material';
 
 const LogInForm = () => {
   const [email, setEmail] = useState('');
@@ -21,9 +21,9 @@ const LogInForm = () => {
       }
     })
     .then((res) => {
-      if (res.data.errors) {
-        emailError.innerHTML = res.data.errors.email;
-        passwordError.innerHTML = res.data.errors.password;
+      if (res.data.error) {
+        emailError.innerHTML = res.data.error.email;
+        passwordError.innerHTML = res.data.error.password;
       } else {
         window.location = '/';
       }
@@ -35,14 +35,22 @@ const LogInForm = () => {
   return (
     <>
       <form onSubmit={handleLogin} id="log-in-form">
-        <TextField onChange={(e) => setEmail(e.target.value)}
+        <TextField
+        sx={{
+          width:"80%"
+        }}
+        onChange={(e) => setEmail(e.target.value)}
         value={email}
         name="email" type="email" label="Adresse email"
         variant="filled"
         required
         />
         <div className='email error'></div>
-        <TextField onChange={(e) => setPassword(e.target.value)}
+        <TextField 
+        sx={{
+          width:"80%"
+        }}
+        onChange={(e) => setPassword(e.target.value)}
         value={password}
         name="password" type="password" label="Mot de Passe"
         variant="filled"
@@ -55,7 +63,7 @@ const LogInForm = () => {
               password.trimStart().length === 0
             }
             sx={{
-              width: "100%",
+              width: "80%",
               margin: "1.5rem 0",
               padding: "12px 0",
               borderRadius: "28px",

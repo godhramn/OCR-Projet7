@@ -10,4 +10,5 @@ const commentSlice = createSlice({
   }
 })
 
+export const { getCommentsData } = commentSlice.actions;
 export default commentSlice.reducer

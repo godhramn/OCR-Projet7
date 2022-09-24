@@ -50,28 +50,44 @@ const SignUpForm = () => {
         </>
       ): (
         <form onSubmit={handleSignUp} id='sign-up-form'>
-          <TextField onChange={(e) => setUsername(e.target.value)}
+          <TextField
+          sx={{
+            width:"80%"
+          }}
+          onChange={(e) => setUsername(e.target.value)}
           value={username}
           name="username" type="text" label="Nom d'utilisateur"
           variant="filled"
           required
           />
           <div className="username error"></div>
-          <TextField onChange={(e) => setEmail(e.target.value)}
+          <TextField 
+          sx={{
+            width:"80%"
+          }}
+          onChange={(e) => setEmail(e.target.value)}
           value={email}
           name="email" type="email" label="Adresse email"
           variant="filled"
           required
           />
           <div className="email error"></div>
-          <TextField onChange={(e) => setPassword(e.target.value)}
+          <TextField 
+          sx={{
+            width:"80%"
+          }}
+          onChange={(e) => setPassword(e.target.value)}
           value={password}
           name="password" type="password" label="Mot de Passe"
           variant="filled"
           required
           />
           <div className="password error"></div>
-          <TextField onChange={(e) => setControlPassword(e.target.value)}
+          <TextField 
+          sx={{
+            width:"80%"
+          }}
+          onChange={(e) => setControlPassword(e.target.value)}
           value={controlPassword}
           name="password" type="password" label="Confirmer le mot de Passe"
           variant="filled"
@@ -87,7 +103,7 @@ const SignUpForm = () => {
             }
             type="submit"
             sx={{
-              width: "100%",
+              width: "80%",
               margin: "1.5rem 0",
               padding: "12px 0",
               borderRadius: "28px",

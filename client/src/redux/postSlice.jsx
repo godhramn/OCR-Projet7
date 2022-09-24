@@ -7,8 +7,9 @@ const postSlice = createSlice({
     getPostsData: (state, action) => {
       state.posts = action.payload;
     },
-    createComment: (state, action) => {},
+    createPost: (state, action) => {},
   }
 })
 
+export const { getPostsData, createPost } = postSlice.actions;
 export default postSlice.reducer

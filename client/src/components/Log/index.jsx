@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import LoginForm from "./LogInForm";
 import SignupForm from "./SignUpForm";
-import { ToggleButtonGroup, ToggleButton, Box, Container } from '@mui/material'
+import { ToggleButtonGroup, ToggleButton, Box, Container, autocompleteClasses } from '@mui/material'
 import Logo from '../../assets/logos/icon-left-font-monochrome-white.svg'
 
 const Log = ( props ) => {
@@ -21,16 +21,20 @@ const Log = ( props ) => {
   return (
     <>
       <Box
+        className="log-container"
         display= "flex"
         flexDirection= "column"
         justifyContent="center"
-        alignItems="center"
+        alignItems="center"       
         sx={{
-          width: "70%"
+          margin: "auto",
+          marginTop: "20%",
+          maxWidth: "60%"
         }}
         border="solid 1px black"
         borderRadius="25px"
         bgcolor="#4E5166"
+        boxShadow="5px 5px 5px black"
       >
         <Box
           sx={{
@@ -44,7 +48,7 @@ const Log = ( props ) => {
         <Box
         display= "flex"
         sx={{
-          width: "70%",
+          width: "100%",
           marginBottom:"30px"
         }}
         borderRadius="25px"
@@ -52,8 +56,10 @@ const Log = ( props ) => {
         >
           <Box
             bgcolor="#FFD7D7"
+            borderRadius="10px"
             sx={{
-              height:"100%"
+              height:"100%",
+              margin: "30px"
             }}
           >
             <ToggleButtonGroup
@@ -79,14 +85,15 @@ const Log = ( props ) => {
               </ToggleButton>
             </ToggleButtonGroup>
           </Box>
-          <Box>
+          <Box
+            sx={{
+              width: "80%",
+            }}
+          >
             {LoginModal && <LoginForm />}
             {SignupModal && <SignupForm />}
           </Box>
         </Box>
-        
-        
-        
       </Box>
     </>    
   );
