@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { useSelector } from "react-redux";
 import axios from 'axios';
-import { Button, CircularProgress, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import LogInForm from './LogInForm';
 
 const SignUpForm = () => {
@@ -9,14 +10,19 @@ const SignUpForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [controlPassword, setControlPassword] = useState('');
+  const usersData = useSelector((state) => state.users.users);
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    const usernameError = document.querySelector('.pseudo.error');
+
+    const usernameError = document.querySelector('.username.error');
     const emailError = document.querySelector('.email.error');
     const passwordError = document.querySelector('.password.error');
     const confirmError = document.querySelector('.confirm.error');
     passwordError.innerHTML = "";
+    emailError.innerHTML = "";
+    usernameError.innerHTML = "";
+    
     if (password !== controlPassword) {
       confirmError.innerHTML = "Les mots de passes ne sont pas identiques"
     } else {
@@ -30,15 +36,20 @@ const SignUpForm = () => {
         }
       })
       .then((res) => {
-        if (res.data.errors) {
-          usernameError.innerHTML = res.data.errors.pseudo;
-          emailError.innerHTML  = res.data.errors.email;
-          passwordError.innerHTML = res.data.errors.password
+        setFormSubmit(true);
+      })
+      .catch((error) => {
+        console.log(error);
+        const userEmail = usersData.map((user) => user.email);
+        const userName = usersData.map((user) => user.username);
+        if (userName.includes(username)) {
+          usernameError.innerHTML = "Ce Nom d'utilisateur est déjà pris"
+        } else if (userEmail.includes(email)) {
+          emailError.innerHTML = "Adresse email déjà utilisée";
         } else {
-          setFormSubmit(true);
+          passwordError.innerHTML = "Le mot de passe doit contenir 8 caractères minimum"
         }
       })
-      .catch((error) => console.log(error))
     }
   }
   return (
@@ -51,47 +62,47 @@ const SignUpForm = () => {
       ): (
         <form onSubmit={handleSignUp} id='sign-up-form'>
           <TextField
-          sx={{
-            width:"80%"
-          }}
-          onChange={(e) => setUsername(e.target.value)}
-          value={username}
-          name="username" type="text" label="Nom d'utilisateur"
-          variant="filled"
-          required
+            sx={{
+              width:"80%"
+            }}
+            onChange={(e) => setUsername(e.target.value)}
+            value={username}
+            name="username" type="text" label="Nom d'utilisateur"
+            variant="filled"
+            required
           />
           <div className="username error"></div>
           <TextField 
-          sx={{
-            width:"80%"
-          }}
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-          name="email" type="email" label="Adresse email"
-          variant="filled"
-          required
+            sx={{
+              width:"80%"
+            }}
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            name="email" type="email" label="Adresse email"
+            variant="filled"
+            required
           />
           <div className="email error"></div>
           <TextField 
-          sx={{
-            width:"80%"
-          }}
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-          name="password" type="password" label="Mot de Passe"
-          variant="filled"
-          required
+            sx={{
+              width:"80%"
+            }}
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            name="password" type="password" label="Mot de Passe"
+            variant="filled"
+            required
           />
           <div className="password error"></div>
           <TextField 
-          sx={{
-            width:"80%"
-          }}
-          onChange={(e) => setControlPassword(e.target.value)}
-          value={controlPassword}
-          name="password" type="password" label="Confirmer le mot de Passe"
-          variant="filled"
-          required
+            sx={{
+              width:"80%"
+            }}
+            onChange={(e) => setControlPassword(e.target.value)}
+            value={controlPassword}
+            name="password" type="password" label="Confirmer le mot de Passe"
+            variant="filled"
+            required
           />
           <div className="confirm error"></div>
           <Button
@@ -109,7 +120,7 @@ const SignUpForm = () => {
               borderRadius: "28px",
             }}
             variant="outlined"
-            color="primary"
+            color="secondary"
           >
             S'inscrire
           </Button>

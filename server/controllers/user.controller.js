@@ -25,11 +25,11 @@ exports.signUp = (req, res, next) => {
           username: req.body.username,
           email: req.body.email,
           password: hash,
-        });
+        })
         /* enregistrer l'utilisateur dans la base de donnée */
         user.save()
-          .then(() => res.status(201).json({ message: "user account created" }))
-          .catch(() => res.status(400).json({ error : "unable to save user data" }));
+        .then(() => res.status(201).json({ message: "user account created" }))
+        .catch((err) => res.status(400).json(err))
       })
       .catch(() => res.status(500).json({ error : "unable to check password validity" }));
     } else {

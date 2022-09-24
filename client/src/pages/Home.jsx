@@ -1,20 +1,12 @@
-import React, {useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import NavbarLeft from '../components/NavbarLeft'
+import React, { useContext } from 'react';
+import NavbarLeft from '../components/NavbarLeft';
+import Thread from '../components/posts/Thread';
+import Header from '../components/Header';
+
 import { Box } from '@mui/material';
-import { getPostsData } from '../redux/postSlice'
+
 
 const Home = () => {
-  const [loadPost, setLoadPost] = useState(true);
-  const dispatch = useDispatch();
-  const posts = useSelector((state) => state.postSlice)
-
-  useEffect(() => {
-    if (loadPost) {
-      dispatch(getPostsData());
-      setLoadPost(false);
-    }
-  }, [loadPost, dispatch])
 
   return (
     <>
@@ -22,7 +14,8 @@ const Home = () => {
         display="flex"
         flex-direction="column"
         sx={{
-          height: "100%"
+          height: "100%",
+          width: "100%"
         }}
       >
         <Box
@@ -32,10 +25,34 @@ const Home = () => {
         >
           <NavbarLeft />
         </Box>
-        <Box>
-          <ul>
-            <li>lol</li>
-          </ul>
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignContent="center"          
+          sx={{
+            width: "80%"
+          }}
+        >
+          <Box
+            boxShadow="0px 3px 2px grey"
+            sx={{
+              width: "100%",
+              marginBottom: "20px"
+            }}
+          >
+            <Header />
+          </Box>
+          <Box
+            border="0.5px solid black"
+            borderRadius="20px"
+            boxShadow="2px 2px 2px grey"
+            sx={{
+              padding: "5%",
+              width: "100%"
+            }}
+          >
+            <Thread />
+          </Box>
         </Box>
       </Box>
       

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from "react-redux";
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
 import { UidContext } from './components/AppContext'
 import Routes from './components/Routes';
-import { getUserData, getUsersData } from "./redux/userSlice";
-import { getPostsData } from "./redux/postSlice";
-import { getCommentsData } from "./redux/commentSlice";
+import { getUserData } from './redux/userSlice';
+import { getUsersData } from './redux/usersSlice';
+import { getPostsData } from './redux/postSlice';
+import { getCommentsData } from './redux/commentSlice';
 
 
 const App = () => {
@@ -14,16 +15,27 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchToken = async() => {
-      await axios({
-        method: 'get',
-        url: `${process.env.REACT_APP_API_URL}jwtid`,
-        withCredentials: true
-      })
-      .then((res) => setUid(res.data))
-      .catch((error) => console.log(error))
+    const auth = localStorage.getItem('auth');
+
+    if (auth == null) {
+      const fetchToken = () => {
+        axios({
+          method: 'get',
+          url: `${process.env.REACT_APP_API_URL}jwtid`,
+          withCredentials: true,
+        })
+          .then((res) => {
+            setUid(res.data._id);
+            localStorage.setItem('auth', res.data._id);
+          })
+          .catch((err) => console.log('No token', err));
+      };
+      fetchToken();
     }
-    fetchToken();
+
+    if (uid === null && auth) {
+      setUid(auth);
+    }
 
     const getUsers = async () => {
       await axios({
@@ -31,52 +43,51 @@ const App = () => {
         url: `${process.env.REACT_APP_API_URL}api/users`,
         withCredentials: true,
       })
-      .then((res) => {
-        dispatch(getUsersData(res.data));
-      })
-      .catch((error) => console.log(error));
-    }
+        .then((res) => {
+          dispatch(getUsersData(res.data));
+        })
+        .catch((err) => console.log(err));
+    };
     getUsers();
 
-    const getUser = async () => {
-      await axios({
-        method: 'get',
-        url: `${process.env.REACT_APP_API_URL}api/users/${uid}`,
-        withCredentials: true,
-      })
-      .then((res) => {
-        dispatch(getUserData(res.data));
-      })
-      .catch((error) => console.log(error));
+    if (uid) {
+      const getUser = async () => {
+        await axios({
+          method: 'get',
+          url: `${process.env.REACT_APP_API_URL}api/users/${uid}`,
+          withCredentials: true,
+        })
+          .then((res) => {
+            dispatch(getUserData(res.data));
+          })
+          .catch((err) => console.log(err));
+      };
+      const getPosts = async () => {
+        await axios({
+          method: 'get',
+          url: `${process.env.REACT_APP_API_URL}api/posts`,
+          withCredentials: true,
+        })
+          .then((res) => {
+            dispatch(getPostsData(res.data));
+          })
+          .catch((err) => console.log(err));
+      };
+      const getComments = async () => {
+        await axios({
+          method: 'get',
+          url: `${process.env.REACT_APP_API_URL}api/comments`,
+          withCredentials: true,
+        })
+          .then((res) => {
+            dispatch(getCommentsData(res.data));
+          })
+          .catch((err) => console.log(err));
+      };
+      getUser();
+      getPosts();
+      getComments();
     }
-    getUser();
-
-    const getPosts = async () => {
-      await axios({
-        method: 'get',
-        url: `${process.env.REACT_APP_API_URL}api/posts`,
-        withCredentials: true,
-      })
-      .then((res) => {
-        dispatch(getPostsData(res.data));
-      })
-      .catch((error) => console.log(error));
-    }
-    getPosts();
-
-    const getComments = async () => {
-      await axios({
-        method: 'get',
-        url: `${process.env.REACT_APP_API_URL}api/comments`,
-        withCredentials: true,
-      })
-      .then((res) => {
-        dispatch(getCommentsData(res.data));
-      })
-      .catch((error) => console.log(error));
-    }
-    getComments();
-
   }, [uid, dispatch]);
 
   
