@@ -26,7 +26,7 @@ exports.signUp = (req, res, next) => {
           username: req.body.username,
           email: req.body.email,
           password: hash,
-          imageURL: `${req.protocol}://${req.get("host")}/images/default.jpg`,
+          imageURL: `${req.protocol}://${req.get("host")}/images/users/default.png`,
         })
         /* enregistrer l'utilisateur dans la base de donnée */
         user.save()
@@ -90,9 +90,9 @@ exports.getAllUsers = (req, res, next) => {
   .then((users) => {
     /* Mettre des images par défaut si absence d'images */
     for (let i = 0; i < users.length; i++) {
-      const savedFilename  = users[i].imageURL.split("/images/")[1];
+      const savedFilename  = users[i].imageURL.split("/images/users/")[1];
       if (fs.existsSync(`images/users/${savedFilename}`) != true) {
-        users[i].imageUrl = `${req.protocol}://${req.get("host")}/images/users/default.jpg`
+        users[i].imageURL = `${req.protocol}://${req.get("host")}/images/users/default.png`
       }
     }
     res.status(200).json(users);
@@ -106,9 +106,9 @@ exports.getOneUser = (req, res, next) => {
   UserModel.findOne({ _id: req.params.id})
   .then((user) => {
     /* Mettre l'image par défaut si absence d'image */
-    const savedFilename  = user.imageURL.split("/images/")[1];
+    const savedFilename  = user.imageURL.split("/images/users/")[1];
     if (fs.existsSync(`images/users/${savedFilename}`) != true) {
-      user.imageUrl = `${req.protocol}://${req.get("host")}/images/users/default.jpg`
+      user.imageURL = `${req.protocol}://${req.get("host")}/images/users/default.png`
     }
     res.status(200).json(user);
   })
@@ -122,7 +122,7 @@ exports.updateUser = (req, res, next) => {
     .then((user) => {
       if (req.file) {
         const filename = user.imageURL.split("images/users")[1];
-        if (fs.existsSync(`images/users/${filename}`) && filename != "default.jpg") {
+        if (fs.existsSync(`images/users/${filename}`) && filename != "default.png") {
           fs.unlink(`images/users/${filename}`, () => {
             UserModel.updateOne(
               { _id: req.params.id },

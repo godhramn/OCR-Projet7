@@ -21,6 +21,7 @@ const Log = ( props ) => {
   return (
     <>
       <Box
+        className="log-box"
         display= "flex"
         flexDirection= "column"
         alignItems="center"

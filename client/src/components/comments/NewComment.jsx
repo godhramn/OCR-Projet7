@@ -46,7 +46,7 @@ function NewComment({ post }) {
               sx={{
                 margin:"0 0.5rem"
               }}
-              className='author-image' src={author.imageURL} alt="Photo de profil de l'auteur"/>
+              className='author-image' src={userData.imageURL} alt="Photo de profil de l'auteur"/>
             <div className='author-informations'>
               <div className='name'>
                 {userData.username}

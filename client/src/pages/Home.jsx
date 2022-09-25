@@ -24,17 +24,18 @@ const Home = () => {
           <NavbarLeft />
         </Box>
         <Container fixed>
-        <Box
-          border="0.5px solid black"
-          borderRadius="20px"
-          boxShadow="2px 2px 2px grey"
-          bgcolor="#4E5166"
-          sx={{
-            marginLeft:"3rem",
-          }}
-        >
-          <Thread />
-        </Box>
+          <Box
+            className="thread-container"
+            border="0.5px solid black"
+            borderRadius="20px"
+            boxShadow="2px 2px 2px grey"
+            bgcolor="#4E5166"
+            sx={{
+              marginLeft:"3rem",
+            }}
+          >
+            <Thread />
+          </Box>
         </Container>  
       </Box>
     </>

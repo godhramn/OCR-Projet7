@@ -23,7 +23,7 @@ const Connect = () => {
                 <NavbarLeft />
               </Box>
             </Box>
-            <Container maxWidth="xs">
+            <Container className="profil-container" maxWidth="xs">
               <UserProfil />
             </Container>
           </>

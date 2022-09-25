@@ -1,0 +1,55 @@
+.log-box {
+  animation: fadeIn 1s 600ms linear both, closer 1s linear both;
+}
+
+.thread-container, .profil-container {
+  animation: moveUp 600ms linear both, fadeIn 1s linear both;
+}
+
+article{
+  animation: moveUp 1s linear both;
+}
+
+.navbar-left {
+  animation: slideRight 200ms linear both;
+}
+
+@keyframes fadeIn{
+  0%{
+    opacity: 0;
+  }
+
+  100%{
+    opacity: 1;
+  }
+}
+
+@keyframes closer{
+  0%{
+    transform: scale(0.5);
+  }
+
+  100%{
+    transform: scale(1);
+  }
+}
+
+@keyframes moveUp{
+  0%{
+    transform: translateY(2%);
+  }
+
+  100%{
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideRight{
+  0%{
+    transform: translateX(-100%);
+  }
+
+  100%{
+    transform: translateX(0)
+  }
+}
