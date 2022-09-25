@@ -8,7 +8,7 @@ const Connect = () => {
   const uid = useContext(UidContext)
   return (
     <>
-      <div className='profil-page'>
+      <main className='profil-page'>
         {uid ? (
           <>
             <Box
@@ -29,11 +29,20 @@ const Connect = () => {
           </>
         
         ) : (
-          <Box className='log-container'>
+          <Box 
+            className='log-container'
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            textAlign="center"
+            sx={{
+              marginTop:"8rem"
+            }}
+          >
             <Log signin={false} signup={true} />
           </Box>
         )}
-      </div>
+      </main>
     </>
   );
 };

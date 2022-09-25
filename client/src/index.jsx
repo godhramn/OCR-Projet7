@@ -9,6 +9,7 @@ import './styles/index.scss';
 import store from './redux/store';
 import Footer from './components/Footer';
 
+
 const theme = createTheme({
   palette: {
     primary: {

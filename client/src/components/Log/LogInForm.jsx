@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useSelector } from "react-redux";
 import axios from 'axios';
 import { TextField, Button } from '@mui/material';
 
 const LogInForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword ] = useState('');
+  const usersData = useSelector((state) => state.users.users);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -20,41 +22,38 @@ const LogInForm = () => {
         password,
       }
     })
-    .then((res) => {
-      if (res.data.error) {
-        emailError.innerHTML = res.data.error.email;
-        passwordError.innerHTML = res.data.error.password;
-      } else {
-        window.location = '/';
-      }
-    })
+    .then((res) => { window.location = '/'})
     .catch((error) => {
       console.log(error);
+      const userEmail = usersData.map((user) => user.email);
+      if (!userEmail.includes(email)) {
+        emailError.innerHTML = "Adresse email inconnue";
+      } else {
+        passwordError.innerHTML = "Mot de passe inconnu";
+      }
     })
   }
   return (
     <>
       <form onSubmit={handleLogin} id="log-in-form">
         <TextField
-        sx={{
-          width:"80%"
-        }}
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-        name="email" type="email" label="Adresse email"
-        variant="filled"
-        required
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+          name="email" type="email" label="Adresse email"
+          variant="filled"
+          required
+          fullWidth
+          margin="dense"
         />
         <div className='email error'></div>
         <TextField 
-        sx={{
-          width:"80%"
-        }}
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
-        name="password" type="password" label="Mot de Passe"
-        variant="filled"
-        required
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+          name="password" type="password" label="Mot de Passe"
+          variant="filled"
+          required
+          fullWidth
+          margin="dense"
         />
         <div className='password error'></div>
         <Button
@@ -63,10 +62,10 @@ const LogInForm = () => {
               password.trimStart().length === 0
             }
             sx={{
-              width: "80%",
-              margin: "1.5rem 0",
+              width: "100%",
               padding: "12px 0",
               borderRadius: "28px",
+              marginTop:"10px",
             }}
             variant="outlined"
             color="primary"

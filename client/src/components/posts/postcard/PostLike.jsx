@@ -26,7 +26,6 @@ function PostLike({ post, postId, setPostId }) {
           setPostId('');
           setLike('');
           setSendLike(false);
-          window.location.reload();
         })
         .catch((err) => console.log(err));
     };
@@ -35,9 +34,11 @@ function PostLike({ post, postId, setPostId }) {
 
   return (
     <Grid 
-    container 
-    direction="row" className='like-bloc'>
-      <div>
+      container
+      direction="row"
+      justifyContent="flex-start" 
+      className='like-bloc'
+    >
         <p>{post.likes}</p>
         {!post.usersLiked.includes(uid) && (
           <IconButton 
@@ -64,8 +65,6 @@ function PostLike({ post, postId, setPostId }) {
           > <ThumbUpIcon />
           </IconButton>
         )}
-      </div>
-      <div>
         <p>{post.dislikes}</p>
         {!post.usersDisliked.includes(uid) && (
           <IconButton 
@@ -92,7 +91,6 @@ function PostLike({ post, postId, setPostId }) {
           > <ThumbDownIcon />
           </IconButton>
         )}
-      </div>
     </Grid>
   );
 }

@@ -1,5 +1,7 @@
 import axios from 'axios';
 import React from 'react';
+import { IconButton } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
 
 function PostUpdateHandle({
   post,
@@ -54,7 +56,8 @@ function PostUpdateHandle({
   return (
     <>
       {updatePost === false && (
-        <button
+        <IconButton
+          aria-label="Modifier le post"
           onClick={() => {
             setUpdatePost(true);
             setDeletePost(false);
@@ -63,22 +66,21 @@ function PostUpdateHandle({
             setPicture(post.picture);
           }}
         >
-          Modifier la publication
-        </button>
+          <EditIcon />
+        </IconButton>
       )}
-
       {updatePost === true && postId !== post._id && (
-        <button
+        <IconButton
+          aria-label="Modifier le post"
           onClick={() => {
             setPostId(post._id);
             setContent(post.content);
             setPicture(post.picture);
           }}
         >
-          Modifier la publication
-        </button>
+          <EditIcon />
+        </IconButton>
       )}
-
       {updatePost === true && postId === post._id && (
         <div className='update-post-Handle'>
           <input

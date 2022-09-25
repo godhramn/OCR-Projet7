@@ -1,5 +1,7 @@
 import axios from "axios";
 import React from "react";
+import { Button, IconButton } from '@mui/material';
+import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 
 function PostDelete({
   post,
@@ -28,23 +30,23 @@ function PostDelete({
   return (
     <>
       {(postId !== post._id || deletePost === false) && (
-        <button
+        <IconButton
           onClick={() => {
             setDeletePost(true);
             setUpdatePost(false);
             setPostId(post._id);
           }}
         >
-          Supprimer la publication
-        </button>
+          <DeleteForeverRoundedIcon/>
+        </IconButton>
       )}
       {deletePost === true && post._id === postId && (
         <div className='delete-post-interaction'>
           <p>Voulez-vous vraiment supprimer cette publication ?</p>
-          <button className='delete-post-btn' onClick={handleDeletePost}>
+          <Button className='delete-post-btn' onClick={handleDeletePost}>
             Confirmer
-          </button>
-          <button
+          </Button>
+          <Button
             className='delete-post-btn'
             onClick={() => {
               setDeletePost(false);
@@ -52,7 +54,7 @@ function PostDelete({
             }}
           >
             Annuler
-          </button>
+          </Button>
         </div>
       )}
     </>

@@ -42,17 +42,35 @@ function PostCard() {
                     border="1px solid grey"
                     borderRadius="10px"
                     boxShadow="3px 2px 2px grey"
+                    bgcolor="white"
                     sx={{
-                      marginTop:"20px",
-                      marginBottom:"20px"
+                      margin:"2rem 1rem",
+                      padding:"1rem"
                     }}
                   >
-                    <PostUser post={post} />
-
+                    <Box
+                      bgcolor="#EEEEEE"
+                      textAlign="center"
+                      display="flex"
+                      justifyContent="center"
+                      borderRadius="10px"
+                      sx={{
+                        width:"10%",
+                        marginBottom:"1rem",
+                        padding:"0.3rem"
+                      }}
+                    >
+                      <PostUser post={post} />
+                    </Box>
                     {(updatePost === false || postId !== post._id) && (
                       <Box   
                         className='post-content'
-
+                        border="1px solid grey"
+                        borderRadius="10px"
+                        sx={{
+                          minHeight:"4rem",
+                          padding:"1rem"
+                        }}
                       >
                         <div className='post-text'>{post.content}</div>
                         {post.picture && (
@@ -78,7 +96,11 @@ function PostCard() {
 
                     {(userData._id === post.author ||
                       userData.isAdmin === true) && (
-                      <div className='post-interaction'>
+                      <Box 
+                        className='post-interaction'
+                        display="flex"
+                        justifyContent="flex-end"
+                      >
                         <PostUpdateHandle
                           post={post}
                           updatePost={updatePost}
@@ -100,7 +122,7 @@ function PostCard() {
                           deletePost={deletePost}
                           setDeletePost={setDeletePost}
                         />
-                      </div>
+                      </Box>
                     )}
 
                     <Box 
@@ -116,7 +138,10 @@ function PostCard() {
                         className='comment-interaction'
                         display="flex"
                         justifyContent="space-evenly"
-                        sx={{marginBottom:"10px"}}
+                        sx={{
+                          height:"2rem",
+                          
+                        }}
                       >
                         {(unrolledComments === false || postId !== post._id) && (
                           <Button
@@ -128,7 +153,8 @@ function PostCard() {
                             }}
                             sx={{
                               width:"40%",
-                              height:"100%"
+                              height:"100%",
+                              fontSize:"0.6rem"
                             }}
                           >
                             Afficher les commentaires
@@ -138,7 +164,8 @@ function PostCard() {
                           <Button
                             sx={{
                               width:"40%",
-                              height:"100%"
+                              height:"100%",
+                              fontSize:"0.6rem"
                             }}
                             variant="outlined"
                             endIcon={<ArrowCircleUpOutlinedIcon />}
@@ -155,7 +182,8 @@ function PostCard() {
                           <Button
                             sx={{
                               width:"40%",
-                              height:"100%"
+                              height:"100%",
+                              fontSize:"0.6rem"
                             }}
                             variant="outlined"
                             endIcon={<AddCircleIcon />}
@@ -186,14 +214,14 @@ function PostCard() {
                       </Box>
                     </Box>
 
-                    <div className='comments'>
+                    <Box className='comments'>
                       {newComment === true && postId === post._id && (
                         <NewComment post={post} />
                       )}
                       {commentsData &&
                         unrolledComments === true &&
                         postId === post._id && <PostComments post={post} />}
-                    </div>
+                    </Box>
                   </Box>
                 </article>
               </>

@@ -10,6 +10,7 @@ function Thread() {
         <Box
           borderBottom="1px solid black"
           textAlign="center"
+          color="white"
           sx={{
             width: "100%",
             marginBottom: "30px"

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import LoginForm from "./LogInForm";
 import SignupForm from "./SignUpForm";
-import { ToggleButtonGroup, ToggleButton, Box, Container, autocompleteClasses } from '@mui/material'
+import { ToggleButtonGroup, ToggleButton, Box } from '@mui/material'
 import Logo from '../../assets/logos/icon-left-font-monochrome-white.svg'
 
 const Log = ( props ) => {
@@ -21,16 +21,9 @@ const Log = ( props ) => {
   return (
     <>
       <Box
-        className="log-container"
         display= "flex"
         flexDirection= "column"
-        justifyContent="center"
-        alignItems="center"       
-        sx={{
-          margin: "auto",
-          marginTop: "20%",
-          maxWidth: "60%"
-        }}
+        alignItems="center"
         border="solid 1px black"
         borderRadius="25px"
         bgcolor="#4E5166"
@@ -47,6 +40,8 @@ const Log = ( props ) => {
         
         <Box
         display= "flex"
+        alignItems="center"
+        justifyContent="space-evenly"
         sx={{
           width: "100%",
           marginBottom:"30px"
@@ -59,7 +54,7 @@ const Log = ( props ) => {
             borderRadius="10px"
             sx={{
               height:"100%",
-              margin: "30px"
+              
             }}
           >
             <ToggleButtonGroup
@@ -72,7 +67,10 @@ const Log = ( props ) => {
                   id="login"
                   value="login"
                   className={LoginModal ? "active-btn" : null}
-                  aria-label="bouton se connecter"
+                  aria-label="se connecter"
+                  sx={{
+                    height:"60px"
+                  }}
               > Se Connecter    
               </ToggleButton>
               <ToggleButton 
@@ -80,14 +78,18 @@ const Log = ( props ) => {
                   id="signup"
                   value="signup"
                   className={SignupModal ? "active-btn" : null}
-                  aria-label="bouton s'inscrire"
+                  aria-label="s'inscrire"
+                  sx={{
+                    height:"60px"
+                  }}
               > S'inscrire
               </ToggleButton>
             </ToggleButtonGroup>
           </Box>
-          <Box
+          <Box 
+            className="from-container"
             sx={{
-              width: "80%",
+              width:"50%",
             }}
           >
             {LoginModal && <LoginForm />}

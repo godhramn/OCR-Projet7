@@ -1,14 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { UidContext } from './AppContext';
 import Logo from '../assets/logos/icon-red.png';
 import LogOut from './Log/LogOut'
 import Modal from './Modal'
 import { getPostsData, createPost } from "../redux/postSlice";
 
 
-import { Input, Grid, Box, List, ListItem, ListItemIcon, IconButton, useTheme } from "@mui/material";
+import { Input, Grid, Box, List, ListItem, ListItemIcon, IconButton } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 import HomeIcon from "@mui/icons-material/Home";
@@ -16,7 +15,6 @@ import PersonIcon from "@mui/icons-material/Person";
 
 
 const NavbarLeft = () => {
-  const uid = useContext(UidContext);
   const dispatch = useDispatch();
 
   const [openModal, setOpenModal] = React.useState(false);
@@ -39,7 +37,7 @@ const NavbarLeft = () => {
 
   return (
     <>
-      <nav>
+      <nav className="navbar-left">
         <Box className="nav-container"
           textAlign="center"
           sx={{

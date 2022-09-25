@@ -2,8 +2,10 @@ import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { UidContext } from '../AppContext';
-import { Button, Avatar } from '@mui/material';
+import { Button, Avatar, Box } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
+import CreateIcon from '@mui/icons-material/Create';
+import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 
 import NewPostContent from './NewPostContent';
 import NewPostUser from './NewPostUser';
@@ -60,40 +62,68 @@ function NewPost() {
     return (
       <>
         {editPost === false && (
-          <div className='new-post-card'>
+          <Box 
+            className='new-post-card'
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            sx={{
+              padding:"1rem"
+            }}
+          >
             <Avatar className="user-picture" src={userData.picture} alt="Photo de profil de l'utilisateur"/>
-            <div className='new-post-card-btn-bloc'>
+            <Box 
+              className='new-post-card-btn-bloc'
+              sx={{
+                marginTop:"1rem"
+              }}
+            >
               <Button
                 className='new-post-card-btn'
                 variant='contained'
-                endIcon={<SendIcon />}
+                endIcon={<CreateIcon />}
                 onClick={() => setEditPost(true)}
               >
                 Ajouter un post
               </Button>
-            </div>
-          </div>
+            </Box>
+          </Box>
         )}
         {editPost && (
-          <div className='post-card'>
+          <Box 
+            className='post-card'
+            sx={{
+              padding:"1rem"
+            }}
+          >
             <NewPostUser />
             <NewPostContent setPicture={setPicture} setContent={setContent} />
-            <div className='submit-post-btn-bloc'>
-              <input
+            <Box
+              className='submit-post-btn-bloc'
+            >
+              <Button
+                sx={{
+                  margin:"1rem",
+                }}
+                variant='contained'
+                endIcon={<SendIcon />}
                 form='new-post'
                 type='submit'
                 className='submit-post-btn'
-                value='Poster la publication'
                 onClick={handlePost}
-              />
-              <button
+              >
+                Envoyer
+              </Button>
+              <Button
+                variant="outlined"
+                endIcon={<CancelRoundedIcon />}
                 className='submit-post-btn'
                 onClick={() => setEditPost(false)}
               >
                 Annuler
-              </button>
-            </div>
-          </div>
+              </Button>
+            </Box>
+          </Box>
         )}
       </>
     );

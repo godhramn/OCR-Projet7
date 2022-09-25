@@ -1,15 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import NavbarLeft from '../components/NavbarLeft';
 import Thread from '../components/posts/Thread';
 import Header from '../components/Header';
-
-import { Box } from '@mui/material';
+import { Box, Container } from '@mui/material';
 
 
 const Home = () => {
 
   return (
     <>
+      <Header />
       <Box
         display="flex"
         flex-direction="column"
@@ -25,37 +25,23 @@ const Home = () => {
         >
           <NavbarLeft />
         </Box>
-        <Box
-          display="flex"
-          flexDirection="column"
-          alignContent="center"          
-          sx={{
-            width: "80%"
-          }}
+     
+        <Container
+          maxWidth="m"
         >
-          <Box
-            boxShadow="0px 3px 2px grey"
-            sx={{
-              width: "100%",
-              marginBottom: "20px"
-            }}
-          >
-            <Header />
-          </Box>
           <Box
             border="0.5px solid black"
             borderRadius="20px"
             boxShadow="2px 2px 2px grey"
+            bgcolor="#4E5166"
             sx={{
-              padding: "5%",
-              width: "100%"
+              margin:"2rem"
             }}
           >
             <Thread />
-          </Box>
-        </Box>
+          </Box>  
+        </Container>
       </Box>
-      
     </>
   );
 };

@@ -57,52 +57,48 @@ const SignUpForm = () => {
       {formSubmit ? (
         <>
           <LogInForm />
-          <h4>Inscription réussie, veuillez vous connecter</h4>
+          <h4 className="success">Inscription réussie, veuillez vous connecter</h4>
         </>
       ): (
         <form onSubmit={handleSignUp} id='sign-up-form'>
           <TextField
-            sx={{
-              width:"80%"
-            }}
             onChange={(e) => setUsername(e.target.value)}
             value={username}
             name="username" type="text" label="Nom d'utilisateur"
             variant="filled"
             required
+            fullWidth
+            margin="dense"
           />
           <div className="username error"></div>
           <TextField 
-            sx={{
-              width:"80%"
-            }}
             onChange={(e) => setEmail(e.target.value)}
             value={email}
             name="email" type="email" label="Adresse email"
             variant="filled"
             required
+            fullWidth
+            margin="dense"
           />
           <div className="email error"></div>
           <TextField 
-            sx={{
-              width:"80%"
-            }}
             onChange={(e) => setPassword(e.target.value)}
             value={password}
             name="password" type="password" label="Mot de Passe"
             variant="filled"
             required
+            fullWidth
+            margin="dense"
           />
           <div className="password error"></div>
           <TextField 
-            sx={{
-              width:"80%"
-            }}
             onChange={(e) => setControlPassword(e.target.value)}
             value={controlPassword}
             name="password" type="password" label="Confirmer le mot de Passe"
             variant="filled"
             required
+            fullWidth
+            margin="dense"
           />
           <div className="confirm error"></div>
           <Button
@@ -114,10 +110,10 @@ const SignUpForm = () => {
             }
             type="submit"
             sx={{
-              width: "80%",
-              margin: "1.5rem 0",
+              width:"100%",
               padding: "12px 0",
               borderRadius: "28px",
+              marginTop:"10px",
             }}
             variant="outlined"
             color="secondary"
