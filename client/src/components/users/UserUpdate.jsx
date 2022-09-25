@@ -39,18 +39,18 @@ const UserUpdate = () => {
   return (
     <>
       <Box className="update-image">
-          {paramsId === uid && isUpdatingImage === false && (
+          {paramsId.id === uid && isUpdatingImage === false && (
             <Box className="image-btn-bloc">
               <Button
                 variant="outlined"
                 className="image-btn"
                 onClick={() => setIsUpdatingImage(true)}
               >
-                Modifier
+                Modifier la photo de profil
               </Button>
             </Box>
           )}
-          {paramsId === uid && isUpdatingImage && (
+          {paramsId.id === uid && isUpdatingImage && (
             <>
               <Box className="image-btn-bloc">
                 <Button

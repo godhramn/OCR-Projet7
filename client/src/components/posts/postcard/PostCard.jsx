@@ -7,6 +7,7 @@ import PostLike from './PostLike';
 import PostUser from './PostUser';
 import PostComments from '../../comments/PostComments';
 import NewComment from '../../comments/NewComment';
+import { dateParser } from '../../Utils';
 
 import { Button, Box } from '@mui/material';
 import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
@@ -39,50 +40,60 @@ function PostCard() {
               <>
                 <article key={post._id}>
                   <Box
-                    border="1px solid grey"
-                    borderRadius="10px"
-                    boxShadow="3px 2px 2px grey"
-                    bgcolor="white"
+                    border='1px solid grey'
+                    borderRadius='10px'
+                    boxShadow='5px 5px 2px black'
+                    bgcolor='white'
                     sx={{
-                      margin:"2rem 1rem",
-                      padding:"1rem"
+                      margin:'2rem 1rem',
+                      padding:'1rem'
                     }}
                   >
                     <Box
-                      bgcolor="#FFD7D7"
-                      textAlign="center"
-                      display="flex"
-                      borderRadius="10px"
+                      bgcolor='#FFD7D7'
+                      textAlign='center'
+                      display='flex'
+                      borderRadius='10px'
                       sx={{
-                        width:"100%",
-                        marginBottom:"1rem",
-                        padding:"0.3rem"
+                        width:'100%',
+                        marginBottom:'1rem',
+                        padding:'0.3rem'
                       }}
                     >
-                      <PostUser post={post} />
+                      <PostUser post={post} /> 
                     </Box>
+                    <Box
+                      sx={{
+                        display:'flex',
+                        justifyContent:'flex-end',
+                        fontSize:'0.8rem',
+                      }}                      
+                    >
+                      <p>Posté le {dateParser(post.createdAt)}</p>
+                    </Box>
+                    
                     {(updatePost === false || postId !== post._id) && (
                       <Box   
                         className='post-content'
-                        border="1px solid grey"
-                        borderRadius="10px"
+                        border='1px solid grey'
+                        borderRadius='10px'
                         sx={{
-                          minHeight:"4rem",
-                          padding:"1rem"
+                          minHeight:'4rem',
+                          padding:'1rem'
                         }}
                       >
                         <div className='post-text'>{post.content}</div>
                         {post.imageURL && (
                           <Box
                             sx={{
-                              maxWidth:"50%",
-                              margin:"1rem",
+                              maxWidth:'50%',
+                              margin:'1rem',
                             }} 
-                            className="post-image"
+                            className='post-image'
                           >
                             <img
                               src={post.imageURL}
-                              alt="Illustration de la publication"
+                              alt='post'
                             ></img>
                           </Box>
                         )}
@@ -103,8 +114,8 @@ function PostCard() {
                       userData.isAdmin === true) && (
                       <Box 
                         className='post-interaction'
-                        display="flex"
-                        justifyContent="flex-end"
+                        display='flex'
+                        justifyContent='flex-end'
                       >
                         <PostUpdateHandle
                           post={post}
@@ -133,33 +144,33 @@ function PostCard() {
                     <Box 
                       className='interaction'
                       sx={{
-                        width:"100%",
-                        height:"100%"
+                        width:'100%',
+                        height:'100%'
                       }}
                     >
                       <PostLike post={post} postId={postId} setPostId={setPostId} />
 
                       <Box 
                         className='comment-interaction'
-                        display="flex"
-                        justifyContent="space-evenly"
+                        display='flex'
+                        justifyContent='space-evenly'
                         sx={{
-                          height:"2rem",
+                          height:'2rem',
                           
                         }}
                       >
                         {(unrolledComments === false || postId !== post._id) && (
                           <Button
-                            variant="outlined"
+                            variant='outlined'
                             endIcon={<ArrowCircleUpOutlinedIcon />}
                             onClick={() => {
                               setUnrolledComments(true);
                               setPostId(post._id);
                             }}
                             sx={{
-                              width:"40%",
-                              height:"100%",
-                              fontSize:"0.6rem"
+                              width:'40%',
+                              height:'100%',
+                              fontSize:'0.6rem'
                             }}
                           >
                             Afficher les commentaires
@@ -168,11 +179,11 @@ function PostCard() {
                         {unrolledComments === true && postId === post._id && (
                           <Button
                             sx={{
-                              width:"40%",
-                              height:"100%",
-                              fontSize:"0.6rem"
+                              width:'40%',
+                              height:'100%',
+                              fontSize:'0.6rem'
                             }}
-                            variant="outlined"
+                            variant='outlined'
                             endIcon={<ArrowCircleDownOutlinedIcon />}
                             onClick={() => {
                               setUnrolledComments(false);
@@ -186,11 +197,11 @@ function PostCard() {
                         {(newComment === false || postId !== post._id) && (
                           <Button
                             sx={{
-                              width:"40%",
-                              height:"100%",
-                              fontSize:"0.6rem"
+                              width:'40%',
+                              height:'100%',
+                              fontSize:'0.6rem'
                             }}
-                            variant="outlined"
+                            variant='outlined'
                             endIcon={<AddCircleIcon />}
                             onClick={() => {
                               setUnrolledComments(true);
@@ -204,10 +215,10 @@ function PostCard() {
                         {newComment === true && postId === post._id && (
                           <Button
                             sx={{
-                              width:"40%",
-                              height:"100%"
+                              width:'40%',
+                              height:'100%'
                             }}
-                            variant="outlined"
+                            variant='outlined'
                             endIcon={<CancelIcon />}
                             onClick={() => {
                               setNewComment(false);
@@ -220,9 +231,10 @@ function PostCard() {
                     </Box>
 
                     <Box
-                      border="1px solid #EEEEEE"
+                      border='1px solid #EEEEEE'
                       sx={{
-                        marginTop:"1rem"
+                        margin:'1rem 10%',
+              
                       }}
                       className='comments'
                     >

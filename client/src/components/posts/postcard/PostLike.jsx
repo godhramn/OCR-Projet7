@@ -56,7 +56,7 @@ function PostLike({ post, postId, setPostId }) {
         {post.usersLiked.includes(uid) && (
           <IconButton
             aria-label='like'
-            disabled
+            color='secondary'
             className='like-btn'
             onClick={() => {
               setLike(0);
@@ -82,7 +82,7 @@ function PostLike({ post, postId, setPostId }) {
         {post.usersDisliked.includes(uid) && (
           <IconButton
             aria-label='dislike'
-            disabled
+            color='secondary'
             className='dislike-btn'
             onClick={() => {
               setLike(0);

@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const access_token = require("jsonwebtoken");
 const passwordValidator = require("password-validator");
 const emailValidator = require("email-validator");
+const fs = require("fs");
 
 const UserModel = require('../models/user.model')
 
@@ -25,6 +26,7 @@ exports.signUp = (req, res, next) => {
           username: req.body.username,
           email: req.body.email,
           password: hash,
+          imageURL: `${req.protocol}://${req.get("host")}/images/default.jpg`,
         })
         /* enregistrer l'utilisateur dans la base de donnée */
         user.save()
@@ -84,7 +86,17 @@ exports.logOut = (req, res, next) => {
 /* Gestion des utilisateurs */
 
 exports.getAllUsers = (req, res, next) => {
-  UserModel.find().then((user) => res.status(200).json(user))
+  UserModel.find()
+  .then((users) => {
+    /* Mettre des images par défaut si absence d'images */
+    for (let i = 0; i < users.length; i++) {
+      const savedFilename  = users[i].imageURL.split("/images/")[1];
+      if (fs.existsSync(`images/users/${savedFilename}`) != true) {
+        users[i].imageUrl = `${req.protocol}://${req.get("host")}/images/users/default.jpg`
+      }
+    }
+    res.status(200).json(users);
+  })
   .catch(() => {
     res.status(400).json({ error: "unable to retrieve users" });
   }); 
@@ -93,6 +105,11 @@ exports.getAllUsers = (req, res, next) => {
 exports.getOneUser = (req, res, next) => {
   UserModel.findOne({ _id: req.params.id})
   .then((user) => {
+    /* Mettre l'image par défaut si absence d'image */
+    const savedFilename  = user.imageURL.split("/images/")[1];
+    if (fs.existsSync(`images/users/${savedFilename}`) != true) {
+      user.imageUrl = `${req.protocol}://${req.get("host")}/images/users/default.jpg`
+    }
     res.status(200).json(user);
   })
   .catch(() => {
@@ -101,13 +118,13 @@ exports.getOneUser = (req, res, next) => {
 };
 
 exports.updateUser = (req, res, next) => {
-  User.findOne({ _id: req.params.id })
+  UserModel.findOne({ _id: req.params.id })
     .then((user) => {
       if (req.file) {
         const filename = user.imageURL.split("images/users")[1];
-        if (fs.existsSync(`images/users/${filename}`)) {
+        if (fs.existsSync(`images/users/${filename}`) && filename != "default.jpg") {
           fs.unlink(`images/users/${filename}`, () => {
-            User.updateOne(
+            UserModel.updateOne(
               { _id: req.params.id },
               {
                 imageURL: `${req.protocol}://${req.get("host")}/images/users/${
@@ -124,7 +141,7 @@ exports.updateUser = (req, res, next) => {
               });
           });
         } else {
-          User.updateOne(
+          UserModel.updateOne(
             { _id: req.params.id },
             {
               imageURL: `${req.protocol}://${req.get("host")}/images/users/${
@@ -141,7 +158,7 @@ exports.updateUser = (req, res, next) => {
             });
         }
       } else {
-        User.updateOne(
+        UserModel.updateOne(
           { _id: req.params.id },
           { ...req.body, _id: req.params.id }
         )

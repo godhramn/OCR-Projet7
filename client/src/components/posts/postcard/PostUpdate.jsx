@@ -66,7 +66,7 @@ function PostUpdate({ post, setContent, setImageURL }) {
                   type='file'
                   id='file'
                   className='choose-image'
-                  accept='.jpg, .jpeg, .png'
+                  accept='.jpg, .jpeg, .png, .gif'
                   onChange={(e) => setImageURL(e.target.files[0])}
                 />
                 <div className='edit-post-btn-bloc'>

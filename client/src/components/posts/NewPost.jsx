@@ -17,14 +17,14 @@ function NewPost() {
   const [editPost, setEditPost] = useState(false);
 
   const author = uid;
-  const [picture, setPicture] = useState('');
+  const [imageURL, setImageURL] = useState('');
   const [content, setContent] = useState('');
 
   const handlePost = (e) => {
     e.preventDefault();
     if (content === '') {
       alert('Publication vide');
-    } else if (picture === '') {
+    } else if (imageURL === '') {
       axios({
         method: 'post',
         url: `${process.env.REACT_APP_API_URL}api/posts`,
@@ -41,7 +41,7 @@ function NewPost() {
 
       data.append('author', author);
       data.append('content', content);
-      data.append('image', picture);
+      data.append('image', imageURL);
 
       axios({
         method: 'post',
@@ -71,7 +71,7 @@ function NewPost() {
               padding:"1rem"
             }}
           >
-            <Avatar sx={{ width:"4rem", height:"4rem"}} className="user-picture" src={userData.picture} alt="Photo de profil de l'utilisateur"/>
+            <Avatar sx={{ width:"4rem", height:"4rem"}} className="user-picture" src={userData.imageURL} alt="Photo de profil de l'utilisateur"/>
             <Box 
               className='new-post-card-btn-bloc'
               sx={{
@@ -97,7 +97,7 @@ function NewPost() {
             }}
           >
             <NewPostUser />
-            <NewPostContent setPicture={setPicture} setContent={setContent} />
+            <NewPostContent setImageURL={setImageURL} setContent={setContent} />
             <Box
               className='submit-post-btn-bloc'
             >

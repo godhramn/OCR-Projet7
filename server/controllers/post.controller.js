@@ -100,14 +100,14 @@ exports.likePost = (req, res, next) => {
                 $inc: { dislikes: -1, likes: +1 },
               }
             )
-              .then(() => res.status(200).json({ message: "Dislike enlevé" }))
+              .then(() => res.status(200).json({ message: "dislike canceled" }))
               .catch((error) => res.status(400).json(error));
           } else if (!post.usersLiked.includes(req.body.userId)) {
             PostModel.updateOne(
               { _id: req.params.id },
               { $push: { usersLiked: req.body.userId }, $inc: { likes: +1 } }
             )
-              .then(() => res.status(200).json({ message: "Like ajouté" }))
+              .then(() => res.status(200).json({ message: "liked" }))
               .catch((error) => res.status(400).json(error));
           }
 
@@ -118,7 +118,7 @@ exports.likePost = (req, res, next) => {
             post.usersLiked.includes(req.body.userId) &&
             !post.usersDisliked.includes(req.body.userId)
           ) {
-            Post.updateOne(
+            PostModel.updateOne(
               { _id: req.params.id },
               {
                 $pull: { usersLiked: req.body.userId },
@@ -126,7 +126,7 @@ exports.likePost = (req, res, next) => {
                 $inc: { likes: -1, dislikes: +1 },
               }
             )
-              .then(() => res.status(200).json({ message: "Like enlevé" }))
+              .then(() => res.status(200).json({ message: "like canceled" }))
               .catch((error) => res.status(400).json(error));
           } else if (!post.usersDisliked.includes(req.body.userId)) {
             PostModel.updateOne(
@@ -136,7 +136,7 @@ exports.likePost = (req, res, next) => {
                 $inc: { dislikes: +1 },
               }
             )
-              .then(() => res.status(200).json({ message: "Dislike ajouté" }))
+              .then(() => res.status(200).json({ message: "disliked" }))
               .catch((error) => res.status(400).json(error));
           }
           break;
@@ -150,7 +150,7 @@ exports.likePost = (req, res, next) => {
                 $inc: { dislikes: -1 },
               }
             )
-              .then(() => res.status(200).json({ message: "Dislike enlevé" }))
+              .then(() => res.status(200).json({ message: "dislike canceled" }))
               .catch((error) => res.status(400).json(error));
           }
           if (post.usersLiked.includes(req.body.userId)) {
@@ -161,7 +161,7 @@ exports.likePost = (req, res, next) => {
                 $inc: { likes: -1 },
               }
             )
-              .then(() => res.status(200).json({ message: "Like enlevé" }))
+              .then(() => res.status(200).json({ message: "like canceled" }))
               .catch((error) => res.status(400).json(error));
           }
           break;

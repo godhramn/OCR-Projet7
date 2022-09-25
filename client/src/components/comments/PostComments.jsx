@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { UidContext } from '../AppContext';
 import CommentDelete from './CommentDelete';
+import { dateParser } from '../Utils';
 
 import { Button, Avatar, Box, IconButton } from '@mui/material';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
@@ -115,6 +116,16 @@ function PostComments({ post }) {
                       setDeleteComment={setDeleteComment}
                       setUpdateComment={setUpdateComment}
                     />
+                    <Box
+                      sx={{
+                        display:"flex",
+                        justifyContent: "flex-end",
+                        fontSize:"0.7rem",
+                      }}
+                    >
+                      <p>Posté le {dateParser(comment.createdAt)}</p>
+                    </Box>
+                    
                   </Box>
                 )}
               </Box>
