@@ -1,39 +1,17 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { NavLink } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import Logo from '../assets/logos/icon-red.png';
 import LogOut from './Log/LogOut'
-import Modal from './Modal'
-import { getPostsData, createPost } from "../redux/postSlice";
 
+import { UidContext } from './AppContext';
 
-import { Input, Grid, Box, List, ListItem, ListItemIcon, IconButton } from "@mui/material";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-
+import { Box, List, ListItem, ListItemIcon } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 
 
 const NavbarLeft = () => {
-  const dispatch = useDispatch();
-
-  const [openModal, setOpenModal] = React.useState(false);
-  const handleModalClose = () => {
-    setOpenModal(false);
-  };
-
-  const handleModalOpen = () => {
-    setOpenModal(true);
-  };
-
-  const [postText, setPostText] = React.useState("");
-  const handleAddPost =  () => {
-    const data = createPost({ content: postText });
-    if (data) {
-      dispatch(getPostsData());
-      setPostText("");
-    }
-  };
+  const uid = useContext(UidContext);
 
   return (
     <>
@@ -54,7 +32,7 @@ const NavbarLeft = () => {
           <List>
             
             <NavLink 
-              to='/profil'
+              to={'/profil/' + uid}
               style={{
                 textDecoration: "none",
                 color: "inherit",
@@ -95,52 +73,8 @@ const NavbarLeft = () => {
             </NavLink>
             <LogOut />
           </List>
-          <IconButton
-            onClick={handleModalOpen}
-            variant="contained"
-            color="primary"
-            style={{
-              borderRadius: "28px",
-              padding: "0 15px",
-              textTransform: "capitalize",
-              textAlign: "center",
-            }}
-          >
-            <AddCircleOutlineIcon />
-          </IconButton>
         </Box>
       </nav>
-      {openModal && (
-        <Modal
-          open={openModal}
-          handleClose={handleModalClose}
-          saveText={"Post"}
-          len={postText.trimStart().length}
-          handleSave={handleAddPost}
-        >
-          <Box>
-            <Grid container>
-              <Grid item>
-                <img src={Logo} alt="logo de l'entreprise Groupomania" width="60px" />
-              </Grid>
-              <Grid item flexGrow="1">
-                <Box padding=".5rem 0">
-                  <Input
-                    value={postText}
-                    onChange={(e) => setPostText(e.target.value)}
-                    multiline
-                    rows="2"
-                    disableUnderline
-                    type="text"
-                    placeholder="Exprimez-vous ici"
-                    sx={{ width: "100%" }}
-                  />
-                </Box>
-              </Grid>
-            </Grid>
-          </Box>
-        </Modal>
-      )}
     </>
   )
 }

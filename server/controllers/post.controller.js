@@ -28,7 +28,7 @@ exports.modifyPost = (req, res, next) => {
   PostModel.findOne({ _id: req.params.id })
   .then((post) => {
     if (req.file && req.file.mimetype.split("/")[0] === "image") {
-      const filename = post.picture.split("images/posts/")[1];
+      const filename = post.imageURL.split("images/posts/")[1];
       fs.unlink(`images/posts/${filename}`, () => {
         PostModel.updateOne(
           { _id: req.params.id },

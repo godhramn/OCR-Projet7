@@ -25,7 +25,7 @@ function PostCard() {
   const [updatePost, setUpdatePost] = useState(false);
   const [deletePost, setDeletePost] = useState(false);
   const [postId, setPostId] = useState('');
-  const [picture, setPicture] = useState('');
+  const [imageURL, setImageURL] = useState('');
   const [content, setContent] = useState('');
 
   if (userData !== null && postsData !== null && commentsData !== null) {
@@ -49,13 +49,12 @@ function PostCard() {
                     }}
                   >
                     <Box
-                      bgcolor="#EEEEEE"
+                      bgcolor="#FFD7D7"
                       textAlign="center"
                       display="flex"
-                      justifyContent="center"
                       borderRadius="10px"
                       sx={{
-                        width:"10%",
+                        width:"100%",
                         marginBottom:"1rem",
                         padding:"0.3rem"
                       }}
@@ -73,13 +72,19 @@ function PostCard() {
                         }}
                       >
                         <div className='post-text'>{post.content}</div>
-                        {post.picture && (
-                          <div className="post-image">
+                        {post.imageURL && (
+                          <Box
+                            sx={{
+                              maxWidth:"50%",
+                              margin:"1rem",
+                            }} 
+                            className="post-image"
+                          >
                             <img
-                              src={post.picture}
+                              src={post.imageURL}
                               alt="Illustration de la publication"
                             ></img>
-                          </div>
+                          </Box>
                         )}
                       </Box>
                     )}
@@ -89,7 +94,7 @@ function PostCard() {
                         <PostUpdate
                           post={post}
                           setContent={setContent}
-                          setPicture={setPicture}
+                          setImageURL={setImageURL}
                         />
                       </>
                     )}
@@ -107,8 +112,8 @@ function PostCard() {
                           setUpdatePost={setUpdatePost}
                           postId={postId}
                           setPostId={setPostId}
-                          picture={picture}
-                          setPicture={setPicture}
+                          imageURL={imageURL}
+                          setImageURL={setImageURL}
                           content={content}
                           setContent={setContent}
                           setDeletePost={setDeletePost}
@@ -146,7 +151,7 @@ function PostCard() {
                         {(unrolledComments === false || postId !== post._id) && (
                           <Button
                             variant="outlined"
-                            endIcon={<ArrowCircleDownOutlinedIcon />}
+                            endIcon={<ArrowCircleUpOutlinedIcon />}
                             onClick={() => {
                               setUnrolledComments(true);
                               setPostId(post._id);
@@ -168,7 +173,7 @@ function PostCard() {
                               fontSize:"0.6rem"
                             }}
                             variant="outlined"
-                            endIcon={<ArrowCircleUpOutlinedIcon />}
+                            endIcon={<ArrowCircleDownOutlinedIcon />}
                             onClick={() => {
                               setUnrolledComments(false);
                               setNewComment(false);
@@ -214,7 +219,13 @@ function PostCard() {
                       </Box>
                     </Box>
 
-                    <Box className='comments'>
+                    <Box
+                      border="1px solid #EEEEEE"
+                      sx={{
+                        marginTop:"1rem"
+                      }}
+                      className='comments'
+                    >
                       {newComment === true && postId === post._id && (
                         <NewComment post={post} />
                       )}

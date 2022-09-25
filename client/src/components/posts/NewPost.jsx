@@ -71,7 +71,7 @@ function NewPost() {
               padding:"1rem"
             }}
           >
-            <Avatar className="user-picture" src={userData.picture} alt="Photo de profil de l'utilisateur"/>
+            <Avatar sx={{ width:"4rem", height:"4rem"}} className="user-picture" src={userData.picture} alt="Photo de profil de l'utilisateur"/>
             <Box 
               className='new-post-card-btn-bloc'
               sx={{

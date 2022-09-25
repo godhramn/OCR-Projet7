@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Button, Avatar } from '@mui/material';
+import { Button, Avatar, TextField, Box } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 
 function NewComment({ post }) {
@@ -32,23 +32,37 @@ function NewComment({ post }) {
   return (
     <>
       <div className='comment-card'>
-        <div className='comment-author'>
-          <div className='author-card' key={userData._id}>
-          <Avatar className='author-image' src={author.picture} alt="Photo de profil de l'auteur"/>
+        <Box className='comment-author'>
+          <Box 
+            className='author-card' 
+            key={userData._id}
+            sx={{
+              display:"flex",
+              alignItems:"center",
+              bgcolor:"#EEEEEE",
+            }}
+          >
+            <Avatar 
+              sx={{
+                margin:"0 0.5rem"
+              }}
+              className='author-image' src={author.imageURL} alt="Photo de profil de l'auteur"/>
             <div className='author-informations'>
               <div className='name'>
                 {userData.username}
               </div>
             </div>
-          </div>
-        </div>
+          </Box>
+        </Box>
         <div className='comment-content'>
           <label htmlFor='commentContent'></label>
-          <textarea
+          <TextField
             name='commentContent'
             id='commentContent'
+            multiline
+            fullWidth
             onChange={(e) => setContent(e.target.value)}
-          ></textarea>
+          />
         </div>
         <div className='comment-btn-bloc'>
           <Button variant="outlined" endIcon={<SendIcon />} onClick={handleComment}>Envoyer</Button>

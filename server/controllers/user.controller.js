@@ -46,6 +46,8 @@ const createToken = (id) => {
   });
 };
 
+/* Gestion de session */
+
 exports.logIn = (req, res, next) => {
   UserModel.findOne({
     email: req.body.email,
@@ -79,6 +81,8 @@ exports.logOut = (req, res, next) => {
   res.status(200).json({ message: "logged out" });
 };
 
+/* Gestion des utilisateurs */
+
 exports.getAllUsers = (req, res, next) => {
   UserModel.find().then((user) => res.status(200).json(user))
   .catch(() => {
@@ -96,17 +100,78 @@ exports.getOneUser = (req, res, next) => {
   });
 };
 
+exports.updateUser = (req, res, next) => {
+  User.findOne({ _id: req.params.id })
+    .then((user) => {
+      if (req.file) {
+        const filename = user.imageURL.split("images/users")[1];
+        if (fs.existsSync(`images/users/${filename}`)) {
+          fs.unlink(`images/users/${filename}`, () => {
+            User.updateOne(
+              { _id: req.params.id },
+              {
+                imageURL: `${req.protocol}://${req.get("host")}/images/users/${
+                  req.file.filename
+                }`,
+                _id: req.params.id,
+              }
+            )
+              .then(() => {
+                res.status(200).json("Utilisateur modifié !");
+              })
+              .catch((error) => {
+                res.status(400).json(error);
+              });
+          });
+        } else {
+          User.updateOne(
+            { _id: req.params.id },
+            {
+              imageURL: `${req.protocol}://${req.get("host")}/images/users/${
+                req.file.filename
+              }`,
+              _id: req.params.id,
+            }
+          )
+            .then(() => {
+              res.status(200).json("Utilisateur modifié !");
+            })
+            .catch((error) => {
+              res.status(400).json(error);
+            });
+        }
+      } else {
+        User.updateOne(
+          { _id: req.params.id },
+          { ...req.body, _id: req.params.id }
+        )
+          .then(() => {
+            res.status(200).json("Utilisateur modifié !");
+          })
+          .catch((error) => {
+            res.status(400).json(error);
+          });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
+};
+
 exports.deleteUser = (req, res, next) => {
   UserModel.findOne({ _id: req.params.id })
   .then((user) => {
     if (user._id != req.auth.userId) {
       res.status(401).json({ message: "unauthorized to delete user" });
     } else { 
-      UserModel.deleteOne({ _id: req.params.id })
-      .then(() =>
-        res.status(200).json({ message: "user deleted" })
-      )
-      .catch(() => res.status(400).json({ error: "unable to delete user" }));
+      const filename = user.imageURL.split("./images/users/")[1];
+      fs.unlink(`images/users/${filename}`, () => {
+        UserModel.deleteOne({ _id: req.params.id })
+        .then(() =>
+          res.status(200).json({ message: "user deleted" })
+        )
+        .catch(() => res.status(400).json({ error: "unable to delete user" }));
+      });
     }
   })
   .catch(() => res.status(500).json({ error: "unable to access user to delete" }));

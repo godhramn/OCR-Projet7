@@ -1,5 +1,8 @@
-import axios from 'axios';
 import React from 'react';
+import axios from 'axios';
+
+import { Button, IconButton } from '@mui/material';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 function CommentDelete({
   comment,
@@ -28,31 +31,36 @@ function CommentDelete({
   return (
     <>
       {(commentId !== comment._id || deleteComment === false) && (
-        <button
+        <IconButton
           onClick={() => {
             setDeleteComment(true);
             setUpdateComment(false);
             setCommentId(comment._id);
           }}
         >
-          Supprimer la publication
-        </button>
+          <DeleteForeverIcon />
+        </IconButton>
       )}
       {deleteComment === true && comment._id === commentId && (
         <div className='delete-comment-interaction'>
           <p>Voulez-vous vraiment supprimer ce commentaire ?</p>
-          <button className='delete-comment-btn' onClick={handleDeleteComment}>
-            Confirmer
-          </button>
-          <button
+          <Button 
+            className='delete-comment-btn' 
+            onClick={handleDeleteComment}
+            variant="contained"
+          >
+            Oui
+          </Button>
+          <Button
             className='delete-comment-btn'
             onClick={() => {
               setDeleteComment(false);
               setCommentId('');
             }}
+            variant="contained"
           >
-            Annuler
-          </button>
+            Non
+          </Button>
         </div>
       )}
     </>

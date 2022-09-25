@@ -11,8 +11,6 @@ const Home = () => {
     <>
       <Header />
       <Box
-        display="flex"
-        flex-direction="column"
         sx={{
           height: "100%",
           width: "100%"
@@ -25,22 +23,19 @@ const Home = () => {
         >
           <NavbarLeft />
         </Box>
-     
-        <Container
-          maxWidth="m"
+        <Container fixed>
+        <Box
+          border="0.5px solid black"
+          borderRadius="20px"
+          boxShadow="2px 2px 2px grey"
+          bgcolor="#4E5166"
+          sx={{
+            marginLeft:"3rem",
+          }}
         >
-          <Box
-            border="0.5px solid black"
-            borderRadius="20px"
-            boxShadow="2px 2px 2px grey"
-            bgcolor="#4E5166"
-            sx={{
-              margin:"2rem"
-            }}
-          >
-            <Thread />
-          </Box>  
-        </Container>
+          <Thread />
+        </Box>
+        </Container>  
       </Box>
     </>
   );

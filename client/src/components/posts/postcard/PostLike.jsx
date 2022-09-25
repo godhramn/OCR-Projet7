@@ -26,6 +26,7 @@ function PostLike({ post, postId, setPostId }) {
           setPostId('');
           setLike('');
           setSendLike(false);
+          window.location.reload();
         })
         .catch((err) => console.log(err));
     };

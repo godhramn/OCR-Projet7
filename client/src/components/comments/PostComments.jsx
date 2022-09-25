@@ -2,8 +2,10 @@ import React, { useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { UidContext } from '../AppContext';
 import CommentDelete from './CommentDelete';
-import { Button, Avatar } from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
+
+import { Button, Avatar, Box, IconButton } from '@mui/material';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+
 
 import Comment from './Comment';
 
@@ -23,52 +25,87 @@ function PostComments({ post }) {
         {commentsData.map(
           (comment) =>
             comment.postId === post._id && (
-              <div className='comment-card' key={comment._id}>
-                <div className='comment-author'>
+              <Box 
+                className='comment-card' key={comment._id}
+                boxShadow="2px 2px 2px grey"
+                borderRadius="10px"
+                border="1px solid grey"
+                sx={{
+                  margin: "1rem 0",
+                  padding: "1rem"
+                }}
+              >
+                <Box 
+                  className='comment-author'
+                  borderBottom="1px solid grey"
+                  borderRadius="10px"
+                  bgcolor="#EEEEEE"
+                  marginBottom="1rem"
+                >
                   {usersData.map(
                     (author) =>
                       author._id === comment.author && (
-                        <div className='author-card' key={author._id}>
+                        <Box
+                          sx={{
+                            width:"10%",
+                          }}
+                          className='author-card' key={author._id}
+                        >
                           <a href={`/profil/${author._id}`}>
-                            <Avatar className='author-image' src={author.picture} alt="Photo de profil de l'auteur"/>
-                            <div className='author-informations'>
-                              <div className='name'>
-                                {author.username}
+                            <Box
+                              sx={{
+                                display:"flex",
+                                alignItems:"center",
+                              }}
+                            >
+                              <Avatar sx={{ margin:"0 0.5rem" }} className='author-image' src={author.picture} alt="Photo de profil de l'auteur"/>
+                              <div className='author-informations'>
+                                <div className='name'>
+                                  {author.username}
+                                </div>
                               </div>
-                            </div>
+                            </Box>
                           </a>
-                        </div>
+                        </Box>
                       )
                   )}
-                </div>
-                <div className='comment-content'>
+                </Box>
+                <Box 
+                  className='comment-content'
+                  sx={{
+                    border:"1px solid #EEEEEE",
+                    borderRadius:"10px",
+                    minHeight:"3rem",
+                    padding:"0.5rem",
+                  }}
+                >
                   <Comment
                     updateComment={updateComment}
                     comment={comment}
                     commentId={commentId}
                   />
-                </div>
+                </Box>
                 {(comment.author === uid || userData.isAdmin === true) && (
-                  <div className='comment-interaction'>
+                  <Box className='comment-interaction'>
                     {(updateComment === false || commentId !== comment._id) && (
-                      <button
+                      <IconButton
                         onClick={() => {
                           setUpdateComment(true);
                           setCommentId(comment._id);
                         }}
                       >
-                        Modifier le commentaire
-                      </button>
+                        <BorderColorIcon/>
+                      </IconButton>
                     )}
                     {updateComment === true && commentId === comment._id && (
-                      <button
+                      <Button
                         onClick={() => {
                           setUpdateComment(false);
                           setCommentId("");
                         }}
                       >
                         Annuler
-                      </button>
+                      </Button>
                     )}
                     <CommentDelete
                       comment={comment}
@@ -78,9 +115,9 @@ function PostComments({ post }) {
                       setDeleteComment={setDeleteComment}
                       setUpdateComment={setUpdateComment}
                     />
-                  </div>
+                  </Box>
                 )}
-              </div>
+              </Box>
             )
         )}
       </>

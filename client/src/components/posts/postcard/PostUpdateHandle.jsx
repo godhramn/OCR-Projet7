@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React from 'react';
-import { IconButton } from '@mui/material';
+import { IconButton, Button } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 
 function PostUpdateHandle({
@@ -9,8 +9,8 @@ function PostUpdateHandle({
   setUpdatePost,
   postId,
   setPostId,
-  picture,
-  setPicture,
+  imageURL,
+  setImageURL,
   content,
   setContent,
   setDeletePost,
@@ -18,11 +18,11 @@ function PostUpdateHandle({
   const handlePost = (e) => {
     e.preventDefault();
 
-    if (picture) {
+    if (imageURL) {
       const data = new FormData();
 
       data.append('content', content);
-      data.append('image', picture);
+      data.append('image', imageURL);
 
       axios({
         method: 'put',
@@ -63,7 +63,7 @@ function PostUpdateHandle({
             setDeletePost(false);
             setPostId(post._id);
             setContent(post.content);
-            setPicture(post.picture);
+            setImageURL(post.imageURL);
           }}
         >
           <EditIcon />
@@ -75,7 +75,7 @@ function PostUpdateHandle({
           onClick={() => {
             setPostId(post._id);
             setContent(post.content);
-            setPicture(post.picture);
+            setImageURL(post.imageURL);
           }}
         >
           <EditIcon />
@@ -83,24 +83,25 @@ function PostUpdateHandle({
       )}
       {updatePost === true && postId === post._id && (
         <div className='update-post-Handle'>
-          <input
+          <Button
             className='update-post-btn'
             form='update-post'
             type='submit'
             onClick={handlePost}
-            value='Valider'
-          />
-          <button
+          >
+            Valider
+          </Button>
+          <Button
             className='update-post-btn'
             onClick={() => {
               setUpdatePost(false);
               setPostId('');
               setContent('');
-              setPicture('');
+              setImageURL('');
             }}
           >
             Annuler
-          </button>
+          </Button>
         </div>
       )}
     </>

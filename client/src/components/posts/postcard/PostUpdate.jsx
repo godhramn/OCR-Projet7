@@ -1,46 +1,59 @@
 import React, { useState } from 'react';
 
-function PostUpdate({ post, setContent, setPicture }) {
+import { Box, Button, TextField } from '@mui/material';
+
+function PostUpdate({ post, setContent, setImageURL }) {
   const [uploadImage, setUploadImage] = useState(false);
 
   return (
     <>
       <form id='update-post'>
-        <div className='post-content'>
+        <Box className='post-content'>
           <label htmlFor='content'></label>
-          <textarea
+          <TextField
+            fullWidth
             name='content'
             id='content'
             defaultValue={post.content}
             onChange={(e) => setContent(e.target.value)}
-          ></textarea>
+          />
 
-          {post.picture && (
+          {post.imageURL && (
             <div className='post-image'>
               <img
-                src={post.picture}
+                src={post.imageURL}
                 alt='Illustration de la publication'
               ></img>
               {uploadImage === false && (
-                <button
+                <Button
+                  variant="contained"
+                  sx={{
+                    fontSize:"0.7rem",
+                    marginTop:"1rem",
+                  }}
                   className='edit-post-btn'
                   onClick={() => setUploadImage(true)}
                 >
                   Modifier l'image
-                </button>
+                </Button>
               )}
             </div>
           )}
 
-          {!post.picture && (
+          {!post.imageURL && (
             <div className='post-image'>
               {uploadImage === false && (
-                <button
+                <Button
+                  variant="contained"
+                  sx={{
+                    fontSize:"0.7rem",
+                    marginTop:"1rem",
+                  }}
                   className='edit-post-btn'
                   onClick={() => setUploadImage(true)}
                 >
                   Ajouter une image
-                </button>
+                </Button>
               )}
             </div>
           )}
@@ -54,23 +67,23 @@ function PostUpdate({ post, setContent, setPicture }) {
                   id='file'
                   className='choose-image'
                   accept='.jpg, .jpeg, .png'
-                  onChange={(e) => setPicture(e.target.files[0])}
+                  onChange={(e) => setImageURL(e.target.files[0])}
                 />
                 <div className='edit-post-btn-bloc'>
-                  <button
+                  <Button
                     className='edit-post-btn'
                     onClick={() => {
                       setUploadImage(false);
-                      setPicture(post.picture);
+                      setImageURL(post.imageURL);
                     }}
                   >
                     Annuler
-                  </button>
+                  </Button>
                 </div>
               </div>
             </>
           )}
-        </div>
+        </Box>
       </form>
     </>
   );

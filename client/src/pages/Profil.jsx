@@ -1,8 +1,11 @@
 import React, { useContext } from 'react';
+
 import Log from '../components/Log';
-import { Box } from '@mui/material';
-import { UidContext } from '../components/AppContext'
-import NavbarLeft from '../components/NavbarLeft'
+import { UidContext } from '../components/AppContext';
+import NavbarLeft from '../components/NavbarLeft';
+import UserProfil from '../components/users/UserProfil'
+
+import { Box, Container } from '@mui/material';
 
 const Connect = () => {
   const uid = useContext(UidContext)
@@ -11,10 +14,7 @@ const Connect = () => {
       <main className='profil-page'>
         {uid ? (
           <>
-            <Box
-              display="flex"
-              flex-direction="column"
-            >
+            <Box>
               <Box
                 sx={{
                   width: "10%"
@@ -22,10 +22,10 @@ const Connect = () => {
               >
                 <NavbarLeft />
               </Box>
-              <Box>
-                Profil Page
-              </Box>
             </Box>
+            <Container maxWidth="xs">
+              <UserProfil />
+            </Container>
           </>
         
         ) : (

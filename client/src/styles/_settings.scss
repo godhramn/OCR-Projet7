@@ -11,11 +11,20 @@ $color-tertiary: #4E5166;
   font-family: "Lato", sans-serif !important;
 }
 
+html {
+  height: 100%;
+  background-color: #EEEEEE;
+}
+
 body {
   margin: 0;
   height: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  a{
+    text-decoration: none;
+    color: inherit;
+  }
 }
 
 .error{
@@ -24,4 +33,20 @@ body {
 
 .success{
   color:#2baf23;
+}
+
+.post-image {
+  img {
+    object-fit: cover;
+    width:100%;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  button {
+    font-size: 0.5em !important;
+    svg {
+      font-size: 1em !important;
+    }
+  }
 }
