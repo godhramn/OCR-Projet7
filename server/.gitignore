@@ -3,5 +3,6 @@
 /images/posts/*
 /images/users/*
 !images/users/default.png
+!images/posts
 
 /.env
