@@ -6,7 +6,16 @@ Création d'un réseau social d'entreprise Groupomania
 [1] : Cloner ce Repo
 <br/>
 <br/>
-[2] : Dans "groupmania-app/client", lancer : "npm install"
+[2] : Dans "/client", lancer : "npm install"
+<br/>
+<br/>
+==== Créer dans ce dossier un fichier .env dans lequel noter: 
+<br/>
+=====> REACT_APP_API_URL=http://localhost:4000/
+<br/>
+<br/>
+[3] : Dans "/server, lancer : "npm install"
+<br/>
 <br/>
 == Créer dans ce dossier un fichier .env dans lequel noter: 
 <br/>
@@ -14,25 +23,25 @@ Création d'un réseau social d'entreprise Groupomania
 <br/>
 et
 <br/>
-=====> SECRET_KEY="votre_code_de_connection_au_cluster_mongoDB"
+=====> SECRET_KEY="code_de_connection_au_cluster_mongoDB"
 <br/>
 <br/>
-[3] : Dans "groupomania-app/server, lancer : "npm install"
+[4] : Toujours dans "/server", lancer : "npm start"
 <br/>
-==== Créer dans ce dossier un fichier .env dans lequel noter: 
-<br/>
-=====> REACT_APP_API_URL=http://localhost:4000/
+(=> Concurrently démarrera les côtés server [port:4000]et client [port:3000] en simultané)
 <br/>
 <br/>
-[4] : Toujours dans "groupomania-app/server", lancer : "npm start"
+Stack :
 <br/>
- (=> Concurrently démarrera les côtés server [port:4000]et client [port:3000] en simultané)
+- Backend : NodeJS (avec Express)
+<br/>
+- Frontend : React, Material-UI
+<br/>
+- BDD : MongoDB
 <br/>
 <br/>
- Stack :
- <br/>
- - Backend : NodeJS (avec Express)
- <br/>
- - Frontend : React, Material-UI
- <br/>
- - BDD : MongoDB
+Création du compte administrateur :
+<br/>
+Modification manuelle du statut de l'utilisateur 
+<br/>
+dans la collection users la base de donnée : "isAdmin":"true"
