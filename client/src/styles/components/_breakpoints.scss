@@ -1,0 +1,15 @@
+@media only screen and (max-width: 450px) {
+  button {
+    font-size: 0.5em !important;
+    svg {
+      font-size: 2em !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 530px) {
+  .profil-container{
+    font-size: 0.8em !important;
+    width: 70% !important;
+  }
+}
