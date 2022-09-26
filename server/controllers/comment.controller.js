@@ -21,13 +21,9 @@ exports.modifyComment = (req, res, next) => {
 exports.deleteComment = (req, res, next) => {
   CommentModel.findOne({ _id: req.params.id })
     .then((comment) => {
-      Comment.deleteMany({ commentId: req.params.id });
-      const filename = comment.imageURL.split("images/comments/")[1];
-      fs.unlink(`images/comments/${filename}`, () => {
-        CommentModel.deleteOne({ _id: req.params.id })
-          .then(() => res.status(200).json({ message: "comment deleted" }))
-          .catch(() => res.status(400).json({ error: "unable to delete comment" }));
-      });
+      CommentModel.deleteOne({ _id: req.params.id })
+        .then(() => res.status(200).json({ message: "comment deleted" }))
+        .catch(() => res.status(400).json({ error: "unable to delete comment" }));
     })
     .catch(() => res.status(500).json( { error : "unable to find comment to delete" }));
 };

@@ -1,12 +1,12 @@
 import React from 'react';
+
 import NavbarLeft from '../components/NavbarLeft';
 import Thread from '../components/posts/Thread';
 import Header from '../components/Header';
+
 import { Box, Container } from '@mui/material';
 
-
 const Home = () => {
-
   return (
     <>
       <Header />

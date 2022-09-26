@@ -59,7 +59,7 @@ function PostComments({ post }) {
                                 alignItems:"center",
                               }}
                             >
-                              <Avatar sx={{ margin:"0 0.5rem" }} className='author-image' src={author.picture} alt="Photo de profil de l'auteur"/>
+                              <Avatar sx={{ margin:"0 0.5rem" }} className='author-image' src={author.imageURL} alt="Photo de profil de l'auteur"/>
                               <div className='author-informations'>
                                 <div className='name'>
                                   {author.username}
