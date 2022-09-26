@@ -20,7 +20,7 @@ function PostDelete({
       withCredentials: true,
     })
       .then(() => {
-        alert("Publication supprimée !");
+        alert("Publication supprimée");
         setUpdatePost(false);
         window.location.reload();
       })
@@ -42,7 +42,7 @@ function PostDelete({
       )}
       {deletePost === true && post._id === postId && (
         <div className='delete-post-interaction'>
-          <p>Voulez-vous vraiment supprimer cette publication ?</p>
+          <p>Voulez-vous vraiment supprimer ce post ?</p>
           <Button className='delete-post-btn' onClick={handleDeletePost}>
             Confirmer
           </Button>

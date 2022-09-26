@@ -13,14 +13,14 @@ exports.createComment = (req, res, next) => {
 };
 
 exports.modifyComment = (req, res, next) => {
-  Comment.updateOne({ _id: req.params.id }, { content: req.body.content })
+  CommentModel.updateOne({ _id: req.params.id }, { content: req.body.content })
     .then(() => res.status(201).json({ message: "comment modified" }))
     .catch(() => res.status(400).json({ error: "unable to modify comment" }));
 };
 
 exports.deleteComment = (req, res, next) => {
   CommentModel.findOne({ _id: req.params.id })
-    .then((comment) => {
+    .then(() => {
       CommentModel.deleteOne({ _id: req.params.id })
         .then(() => res.status(200).json({ message: "comment deleted" }))
         .catch(() => res.status(400).json({ error: "unable to delete comment" }));

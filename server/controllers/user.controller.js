@@ -121,7 +121,7 @@ exports.updateUser = (req, res, next) => {
   UserModel.findOne({ _id: req.params.id })
     .then((user) => {
       if (req.file) {
-        const filename = user.imageURL.split("images/users")[1];
+        const filename = user.imageURL.split("images/users/")[1];
         if (fs.existsSync(`images/users/${filename}`) && filename != "default.png") {
           fs.unlink(`images/users/${filename}`, () => {
             UserModel.updateOne(
