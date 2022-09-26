@@ -8,7 +8,7 @@ Création d'un réseau social d'entreprise Groupomania
 <br/>
 [2] : Dans "groupmania-app/client", lancer : "npm install"
 <br/>
-==== Créer dans ce dossier un fichier .env dans lequel noter: 
+== Créer dans ce dossier un fichier .env dans lequel noter: 
 <br/>
 =====> authToken="RANDOM_TOKEN_SECRET"
 <br/>
@@ -22,6 +22,7 @@ et
 ==== Créer dans ce dossier un fichier .env dans lequel noter: 
 <br/>
 =====> REACT_APP_API_URL=http://localhost:4000/
+<br/>
 <br/>
 [4] : Toujours dans "groupomania-app/server", lancer : "npm start"
 <br/>
