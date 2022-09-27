@@ -33,223 +33,215 @@ function PostCard() {
     return (
       <>
         {postsData
-          .slice(0)
-          .reverse()
-          .map((post) => {
-            return (
-              <>
-                <article key={post._id}>
-                  <Box
+        .slice(0)
+        .reverse()
+        .map((post) => {
+          return (
+            <article key={post._id}>
+              <Box
+                border='1px solid grey'
+                borderRadius='10px'
+                boxShadow='5px 5px 2px black'
+                bgcolor='white'
+                sx={{
+                  margin:'2rem 1rem',
+                  padding:'1rem'
+                }}
+              >
+                <Box
+                  bgcolor='#FFD7D7'
+                  textAlign='center'
+                  display='flex'
+                  borderRadius='10px'
+                  sx={{
+                    width:'100%',
+                    marginBottom:'1rem',
+                    padding:'0.3rem'
+                  }}
+                >
+                  <PostUser post={post} /> 
+                </Box>
+                <Box
+                  sx={{
+                    display:'flex',
+                    justifyContent:'flex-end',
+                    fontSize:'0.8rem',
+                  }}                      
+                >
+                  <p>Posté le {dateParser(post.createdAt)}</p>
+                </Box>
+                
+                {(updatePost === false || postId !== post._id) && (
+                  <Box   
+                    className='post-content'
                     border='1px solid grey'
                     borderRadius='10px'
-                    boxShadow='5px 5px 2px black'
-                    bgcolor='white'
                     sx={{
-                      margin:'2rem 1rem',
+                      minHeight:'4rem',
                       padding:'1rem'
                     }}
                   >
-                    <Box
-                      bgcolor='#FFD7D7'
-                      textAlign='center'
-                      display='flex'
-                      borderRadius='10px'
-                      sx={{
-                        width:'100%',
-                        marginBottom:'1rem',
-                        padding:'0.3rem'
-                      }}
-                    >
-                      <PostUser post={post} /> 
-                    </Box>
-                    <Box
-                      sx={{
-                        display:'flex',
-                        justifyContent:'flex-end',
-                        fontSize:'0.8rem',
-                      }}                      
-                    >
-                      <p>Posté le {dateParser(post.createdAt)}</p>
-                    </Box>
-                    
-                    {(updatePost === false || postId !== post._id) && (
-                      <Box   
-                        className='post-content'
-                        border='1px solid grey'
-                        borderRadius='10px'
+                    <div className='post-text'>{post.content}</div>
+                    {post.imageURL && (
+                      <Box
                         sx={{
-                          minHeight:'4rem',
-                          padding:'1rem'
-                        }}
+                          maxWidth:'50%',
+                          margin:'1rem',
+                        }} 
+                        className='post-image'
                       >
-                        <div className='post-text'>{post.content}</div>
-                        {post.imageURL && (
-                          <Box
-                            sx={{
-                              maxWidth:'50%',
-                              margin:'1rem',
-                            }} 
-                            className='post-image'
-                          >
-                            <img
-                              src={post.imageURL}
-                              alt='post'
-                            ></img>
-                          </Box>
-                        )}
+                        <img
+                          src={post.imageURL}
+                          alt='post'
+                        ></img>
                       </Box>
                     )}
-
-                    {updatePost === true && postId === post._id && (
-                      <>
-                        <PostUpdate
-                          post={post}
-                          setContent={setContent}
-                          setImageURL={setImageURL}
-                        />
-                      </>
-                    )}
-
-                    {(userData._id === post.author ||
-                      userData.isAdmin === true) && (
-                      <Box 
-                        className='post-interaction'
-                        display='flex'
-                        justifyContent='flex-end'
-                      >
-                        <PostUpdateHandle
-                          post={post}
-                          updatePost={updatePost}
-                          setUpdatePost={setUpdatePost}
-                          postId={postId}
-                          setPostId={setPostId}
-                          imageURL={imageURL}
-                          setImageURL={setImageURL}
-                          content={content}
-                          setContent={setContent}
-                          setDeletePost={setDeletePost}
-                        />
-
-                        <PostDelete
-                          post={post}
-                          setUpdatePost={setUpdatePost}
-                          postId={postId}
-                          setPostId={setPostId}
-                          deletePost={deletePost}
-                          setDeletePost={setDeletePost}
-                        />
-                      </Box>
-                    )}
-
-                    <Box 
-                      className='interaction'
-                      sx={{
-                        width:'100%',
-                        height:'100%'
-                      }}
-                    >
-                      <PostLike post={post} postId={postId} setPostId={setPostId} />
-
-                      <Box 
-                        className='comment-interaction'
-                        display='flex'
-                        justifyContent='space-evenly'
-                        sx={{
-                          height:'2rem',
-                          
-                        }}
-                      >
-                        {(unrolledComments === false || postId !== post._id) && (
-                          <Button
-                            variant='outlined'
-                            endIcon={<ArrowCircleUpOutlinedIcon />}
-                            onClick={() => {
-                              setUnrolledComments(true);
-                              setPostId(post._id);
-                            }}
-                            sx={{
-                              width:'40%',
-                              height:'100%',
-                              fontSize:'0.6rem'
-                            }}
-                          >
-                            Afficher les commentaires
-                          </Button>
-                        )}
-                        {unrolledComments === true && postId === post._id && (
-                          <Button
-                            sx={{
-                              width:'40%',
-                              height:'100%',
-                              fontSize:'0.6rem'
-                            }}
-                            variant='outlined'
-                            endIcon={<ArrowCircleDownOutlinedIcon />}
-                            onClick={() => {
-                              setUnrolledComments(false);
-                              setNewComment(false);
-                              setPostId('');
-                            }}
-                          >
-                            Masquer les commentaires
-                          </Button>
-                        )}
-                        {(newComment === false || postId !== post._id) && (
-                          <Button
-                            sx={{
-                              width:'40%',
-                              height:'100%',
-                              fontSize:'0.6rem'
-                            }}
-                            variant='outlined'
-                            endIcon={<AddCircleIcon />}
-                            onClick={() => {
-                              setUnrolledComments(true);
-                              setNewComment(true);
-                              setPostId(post._id);
-                            }}
-                          >
-                            Ajouter un commentaire
-                          </Button>
-                        )}
-                        {newComment === true && postId === post._id && (
-                          <Button
-                            sx={{
-                              width:'40%',
-                              height:'100%'
-                            }}
-                            variant='outlined'
-                            endIcon={<CancelIcon />}
-                            onClick={() => {
-                              setNewComment(false);
-                            }}
-                          >
-                            Annuler
-                          </Button>
-                        )}
-                      </Box>
-                    </Box>
-
-                    <Box
-                      border='1px solid #EEEEEE'
-                      sx={{
-                        margin:'1rem 10%',
-              
-                      }}
-                      className='comments'
-                    >
-                      {newComment === true && postId === post._id && (
-                        <NewComment post={post} />
-                      )}
-                      {commentsData &&
-                        unrolledComments === true &&
-                        postId === post._id && <PostComments post={post} />}
-                    </Box>
                   </Box>
-                </article>
-              </>
-            );
-          })}
+                )}
+                {updatePost === true && postId === post._id && (
+                  <>
+                    <PostUpdate
+                      post={post}
+                      setContent={setContent}
+                      setImageURL={setImageURL}
+                    />
+                  </>
+                )}
+                {(userData._id === post.author ||
+                  userData.isAdmin === true) && (
+                  <Box 
+                    className='post-interaction'
+                    display='flex'
+                    justifyContent='flex-end'
+                  >
+                    <PostUpdateHandle
+                      post={post}
+                      updatePost={updatePost}
+                      setUpdatePost={setUpdatePost}
+                      postId={postId}
+                      setPostId={setPostId}
+                      imageURL={imageURL}
+                      setImageURL={setImageURL}
+                      content={content}
+                      setContent={setContent}
+                      setDeletePost={setDeletePost}
+                    />
+                    <PostDelete
+                      post={post}
+                      setUpdatePost={setUpdatePost}
+                      postId={postId}
+                      setPostId={setPostId}
+                      deletePost={deletePost}
+                      setDeletePost={setDeletePost}
+                    />
+                  </Box>
+                )}
+                <Box 
+                  className='interaction'
+                  sx={{
+                    width:'100%',
+                    height:'100%'
+                  }}
+                >
+                  <PostLike post={post} postId={postId} setPostId={setPostId} />
+                  <Box 
+                    className='comment-interaction'
+                    display='flex'
+                    justifyContent='space-evenly'
+                    sx={{
+                      height:'2rem',
+                      
+                    }}
+                  >
+                    {(unrolledComments === false || postId !== post._id) && (
+                      <Button
+                        variant='outlined'
+                        endIcon={<ArrowCircleUpOutlinedIcon />}
+                        onClick={() => {
+                          setUnrolledComments(true);
+                          setPostId(post._id);
+                        }}
+                        sx={{
+                          width:'40%',
+                          height:'100%',
+                          fontSize:'0.6rem'
+                        }}
+                      >
+                        Afficher les commentaires
+                      </Button>
+                    )}
+                    {unrolledComments === true && postId === post._id && (
+                      <Button
+                        sx={{
+                          width:'40%',
+                          height:'100%',
+                          fontSize:'0.6rem'
+                        }}
+                        variant='outlined'
+                        endIcon={<ArrowCircleDownOutlinedIcon />}
+                        onClick={() => {
+                          setUnrolledComments(false);
+                          setNewComment(false);
+                          setPostId('');
+                        }}
+                      >
+                        Masquer les commentaires
+                      </Button>
+                    )}
+                    {(newComment === false || postId !== post._id) && (
+                      <Button
+                        sx={{
+                          width:'40%',
+                          height:'100%',
+                          fontSize:'0.6rem'
+                        }}
+                        variant='outlined'
+                        endIcon={<AddCircleIcon />}
+                        onClick={() => {
+                          setUnrolledComments(true);
+                          setNewComment(true);
+                          setPostId(post._id);
+                        }}
+                      >
+                        Ajouter un commentaire
+                      </Button>
+                    )}
+                    {newComment === true && postId === post._id && (
+                      <Button
+                        sx={{
+                          width:'40%',
+                          height:'100%'
+                        }}
+                        variant='outlined'
+                        endIcon={<CancelIcon />}
+                        onClick={() => {
+                          setNewComment(false);
+                        }}
+                      >
+                        Annuler
+                      </Button>
+                    )}
+                  </Box>
+                </Box>
+                <Box
+                  border='1px solid #EEEEEE'
+                  sx={{
+                    margin:'1rem 10%',
+          
+                  }}
+                  className='comments'
+                >
+                  {newComment === true && postId === post._id && (
+                    <NewComment post={post} />
+                  )}
+                  {commentsData &&
+                    unrolledComments === true &&
+                    postId === post._id && <PostComments post={post} />}
+                </Box>
+              </Box>
+            </article>
+          );
+        })}
       </>
     );
   }

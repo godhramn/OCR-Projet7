@@ -1,5 +1,4 @@
 const PostModel = require("../models/post.model");
-const UserModel = require("../models/user.model");
 const CommentModel = require("../models/comment.model");
 const fs = require("fs");
 
@@ -50,7 +49,7 @@ exports.modifyPost = (req, res, next) => {
         },
       )
       .then(() => res.status(200).json({ message: "post modified" }))
-          .catch(() => res.status(400).json({ error: "unable to modify post"}));
+      .catch(() => res.status(400).json({ error: "unable to modify post"}));
     }
   })
 };
@@ -58,7 +57,7 @@ exports.modifyPost = (req, res, next) => {
 exports.deletePost = (req, res, next) => {
   PostModel.findOne({ _id: req.params.id })
   .then((post) => {
-    CommentModel.deleteMany({ postId: req.params.id });
+    CommentModel.deleteMany({ postId : req.params.id });
     const filename = post.imageURL.split("images/posts/")[1];
     fs.unlink(`images/posts/${filename}`, () => {
       PostModel.deleteOne({ _id: req.params.id })
@@ -71,101 +70,98 @@ exports.deletePost = (req, res, next) => {
 
 exports.getAllPosts = (req, res, next) => {
   PostModel.find()
-    .then((posts) => res.status(200).json(posts))
-    .catch(() => res.status(400).json({ error: "unable to retrieve posts" }));
+  .then((posts) => res.status(200).json(posts))
+  .catch(() => res.status(400).json({ error: "unable to retrieve posts" }));
 };
 
 exports.getOnePost = (req, res, next) => {
   PostModel.findOne({ _id: req.params.id })
-    .then((post) => res.status(200).json(post))
-    .catch(() => res.status(400).json({ error: "unable to find post" }));
+  .then((post) => res.status(200).json(post))
+  .catch(() => res.status(400).json({ error: "unable to find post" }));
 };
 
 exports.likePost = (req, res, next) => {
   let like = req.body.like;
 
   PostModel.findOne({ _id: req.params.id })
-    .then((post) => {
-      switch (like) {
-        case 1:
-          if (
-            post.usersDisliked.includes(req.body.userId) &&
-            !post.usersLiked.includes(req.body.userId)
-          ) {
-            PostModel.updateOne(
-              { _id: req.params.id },
-              {
-                $pull: { usersDisliked: req.body.userId },
-                $push: { usersLiked: req.body.userId },
-                $inc: { dislikes: -1, likes: +1 },
-              }
-            )
-              .then(() => res.status(200).json({ message: "dislike canceled" }))
-              .catch((error) => res.status(400).json(error));
-          } else if (!post.usersLiked.includes(req.body.userId)) {
-            PostModel.updateOne(
-              { _id: req.params.id },
-              { $push: { usersLiked: req.body.userId }, $inc: { likes: +1 } }
-            )
-              .then(() => res.status(200).json({ message: "liked" }))
-              .catch((error) => res.status(400).json(error));
-          }
-
-          break;
-
-        case -1:
-          if (
-            post.usersLiked.includes(req.body.userId) &&
-            !post.usersDisliked.includes(req.body.userId)
-          ) {
-            PostModel.updateOne(
-              { _id: req.params.id },
-              {
-                $pull: { usersLiked: req.body.userId },
-                $push: { usersDisliked: req.body.userId },
-                $inc: { likes: -1, dislikes: +1 },
-              }
-            )
-              .then(() => res.status(200).json({ message: "like canceled" }))
-              .catch((error) => res.status(400).json(error));
-          } else if (!post.usersDisliked.includes(req.body.userId)) {
-            PostModel.updateOne(
-              { _id: req.params.id },
-              {
-                $push: { usersDisliked: req.body.userId },
-                $inc: { dislikes: +1 },
-              }
-            )
-              .then(() => res.status(200).json({ message: "disliked" }))
-              .catch((error) => res.status(400).json(error));
-          }
-          break;
-
-        case 0:
-          if (post.usersDisliked.includes(req.body.userId)) {
-            PostModel.updateOne(
-              { _id: req.params.id },
-              {
-                $pull: { usersDisliked: req.body.userId },
-                $inc: { dislikes: -1 },
-              }
-            )
-              .then(() => res.status(200).json({ message: "dislike canceled" }))
-              .catch((error) => res.status(400).json(error));
-          }
-          if (post.usersLiked.includes(req.body.userId)) {
-            PostModel.updateOne(
-              { _id: req.params.id },
-              {
-                $pull: { usersLiked: req.body.userId },
-                $inc: { likes: -1 },
-              }
-            )
-              .then(() => res.status(200).json({ message: "like canceled" }))
-              .catch((error) => res.status(400).json(error));
-          }
-          break;
-      }
-    })
-    .catch((error) => res.status(500).json(error));
+  .then((post) => {
+    switch (like) {
+      case 1:
+        if (
+          post.usersDisliked.includes(req.body.userId) &&
+          !post.usersLiked.includes(req.body.userId)
+        ) {
+          PostModel.updateOne(
+            { _id: req.params.id },
+            {
+              $pull: { usersDisliked: req.body.userId },
+              $push: { usersLiked: req.body.userId },
+              $inc: { dislikes: -1, likes: +1 },
+            }
+          )
+            .then(() => res.status(200).json({ message: "dislike canceled" }))
+            .catch((error) => res.status(400).json(error));
+        } else if (!post.usersLiked.includes(req.body.userId)) {
+          PostModel.updateOne(
+            { _id: req.params.id },
+            { $push: { usersLiked: req.body.userId }, $inc: { likes: +1 } }
+          )
+            .then(() => res.status(200).json({ message: "liked" }))
+            .catch((error) => res.status(400).json(error));
+        }
+        break;
+      case -1:
+        if (
+          post.usersLiked.includes(req.body.userId) &&
+          !post.usersDisliked.includes(req.body.userId)
+        ) {
+          PostModel.updateOne(
+            { _id: req.params.id },
+            {
+              $pull: { usersLiked: req.body.userId },
+              $push: { usersDisliked: req.body.userId },
+              $inc: { likes: -1, dislikes: +1 },
+            }
+          )
+            .then(() => res.status(200).json({ message: "like canceled" }))
+            .catch((error) => res.status(400).json(error));
+        } else if (!post.usersDisliked.includes(req.body.userId)) {
+          PostModel.updateOne(
+            { _id: req.params.id },
+            {
+              $push: { usersDisliked: req.body.userId },
+              $inc: { dislikes: +1 },
+            }
+          )
+            .then(() => res.status(200).json({ message: "disliked" }))
+            .catch((error) => res.status(400).json(error));
+        }
+        break;
+      case 0:
+        if (post.usersDisliked.includes(req.body.userId)) {
+          PostModel.updateOne(
+            { _id: req.params.id },
+            {
+              $pull: { usersDisliked: req.body.userId },
+              $inc: { dislikes: -1 },
+            }
+          )
+            .then(() => res.status(200).json({ message: "dislike canceled" }))
+            .catch((error) => res.status(400).json(error));
+        }
+        if (post.usersLiked.includes(req.body.userId)) {
+          PostModel.updateOne(
+            { _id: req.params.id },
+            {
+              $pull: { usersLiked: req.body.userId },
+              $inc: { likes: -1 },
+            }
+          )
+            .then(() => res.status(200).json({ message: "like canceled" }))
+            .catch((error) => res.status(400).json(error));
+        }
+        break;
+    }
+  })
+  .catch((error) => res.status(500).json(error));
 };

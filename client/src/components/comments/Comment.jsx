@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Button } from '@mui/material'
+import { Button, TextField } from '@mui/material'
 
 function Comment({ updateComment, comment, commentId }) {
   const commentsData = useSelector((state) => state.comments.comments);
@@ -35,12 +35,13 @@ function Comment({ updateComment, comment, commentId }) {
         {updateComment === true && commentId === comment._id && (
           <>
             <label htmlFor='commentContent'></label>
-            <textarea
+            <TextField
+              fullWidth
               name='commentContent'
               id='commentContent'
               defaultValue={comment.content}
               onChange={(e) => setContent(e.target.value)}
-            ></textarea>
+            ></TextField>
             <div className='comment-btn-bloc'>
               <Button onClick={handleComment}>Valider</Button>
             </div>
