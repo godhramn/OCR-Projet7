@@ -10,8 +10,8 @@ const Log = ( props ) => {
 
   const handleModals = (e) => {
     if (e.target.id === "login") {
-      setLoginModal(true);
       setSignupModal(false);
+      setLoginModal(true);
     } else if (e.target.id === "signup") {
       setLoginModal(false);
       setSignupModal(true);
@@ -59,7 +59,6 @@ const Log = ( props ) => {
             }}
           >
             <ToggleButtonGroup
-              
               orientation="vertical"
               exclusive
             >
@@ -88,7 +87,7 @@ const Log = ( props ) => {
             </ToggleButtonGroup>
           </Box>
           <Box 
-            className="from-container"
+            className="form-container"
             sx={{
               width:"50%",
             }}
