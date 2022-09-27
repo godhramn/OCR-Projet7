@@ -55,17 +55,20 @@ exports.modifyPost = (req, res, next) => {
 };
 
 exports.deletePost = (req, res, next) => {
-  PostModel.findOne({ _id: req.params.id })
-  .then((post) => {
-    CommentModel.deleteMany({ postId : req.params.id });
+  CommentModel.deleteMany({ postId : req.params.id })
+  .then(() => {
+    PostModel.findOne({ _id: req.params.id })
+    .then((post) => {
     const filename = post.imageURL.split("images/posts/")[1];
     fs.unlink(`images/posts/${filename}`, () => {
       PostModel.deleteOne({ _id: req.params.id })
-        .then(() => res.status(200).json({ message: "post deleted" }))
-        .catch(() => res.status(400).json({ error: "unable to delete post" }));
+      .then(() => res.status(200).json({ message: "post deleted" }))
+      .catch(() => res.status(400).json({ error: "unable to delete post" }));
     });
-  })
-  .catch(() => res.status(500).json( { error : "unable to access post to delete" }));
+    })
+    .catch(() => res.status(500).json( { error : "unable to access post to delete" }));
+    })
+  .catch((error) => res.status(400).json(error))
 };
 
 exports.getAllPosts = (req, res, next) => {
