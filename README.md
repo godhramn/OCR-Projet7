@@ -23,7 +23,7 @@ Création d'un réseau social d'entreprise Groupomania
 <br/>
 et
 <br/>
-=====> SECRET_KEY="code_de_connection_au_cluster_mongoDB"
+=====> SECRET_KEY="code_de_connection_au_cluster_mongoDB" (OCR: voir fichier TXT bdd_092022)
 <br/>
 <br/>
 [4] : Toujours dans "/server", lancer : "npm start"
