@@ -15,8 +15,9 @@ const UserProfil = () => {
     return (
       <>
         {usersData.map(
-          (user) =>
+          (user) => 
             user._id === paramsId && (
+            <article key={user._id}>
               <Box
                 display='flex'
                 flexDirection='column'
@@ -31,21 +32,22 @@ const UserProfil = () => {
                   bgcolor: 'white',
                 }}
               >
-              <Avatar 
-                src={user.imageURL} 
-                alt="profil de l'utilisateur" 
-                sx={{
-                  width: '8rem',
-                  height: '8rem',
-                  margin: '2rem',
-                }}
-              />
-              <UserUpdate />
-              
-              <h2>{user.username}</h2>
-              <h3>{user.email}</h3>
-              <h4>Membre depuis le {dateParser(user.createdAt)}</h4>
-            </Box>
+                <Avatar 
+                  src={user.imageURL} 
+                  alt="profil de l'utilisateur" 
+                  sx={{
+                    width: '8rem',
+                    height: '8rem',
+                    margin: '2rem',
+                  }}
+                />
+                <UserUpdate />
+                
+                <h2>{user.username}</h2>
+                <h3>{user.email}</h3>
+                <h4>Membre depuis le {dateParser(user.createdAt)}</h4>
+              </Box>
+            </article>
           )
         )}
       </>
